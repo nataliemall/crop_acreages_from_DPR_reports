@@ -5,6 +5,8 @@
 *.png
 *.pdf
 *.jpg
+*.doc
+*.zip
 .DS_Store
 
 # .gitignore file created to prevent tracking of the numerous data files 
