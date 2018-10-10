@@ -44,12 +44,11 @@ irrigation_district = 'Tulare_County'
 # irrigation_district = 'Wasco_Irrigation_District'
 # irrigation_district = 'Buena_Vista_Water_Storage_District'
 
-## List of automatically produced regions  ###
 
+## List of automatically produced regions  ###
 # irrigation_district = 'Tulare Irrigation District'
 # irrigation_district = 'Cawelo Water District'
 # irrigation_district = 'North Kern Water Storage District'
-
 # irrigation_district = 'Lost Hills Water District'
 # irrigation_district = 'Lower Tule River Irrigation District'
 # irrigation_district = 'Westlands Water District'
@@ -63,9 +62,7 @@ irrigation_district = 'Tulare_County'
 # irrigation_district = 'Southern San Joaquin Municipal Utility District'  # not in TLB 
 # pdb.set_trace()
 
-if os.path.isdir(str(irrigation_district)):
-    irrig_file = 'exists'
-else:
+if not os.path.isdir(str(irrigation_district)):  # creates empty directory for the district if it does not yet exist
     os.mkdir(str(irrigation_district))
 
 

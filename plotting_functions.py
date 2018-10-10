@@ -186,6 +186,7 @@ def plot_tree_crop_percentages_for_irrigation_district(irrigation_district, sum_
     plt.show()  
 
 def plot_water_demand_graph(sum_crop_types_normalized, irrigation_district):
+    plt.figure()
     # pdb.set_trace()
     x_vals = sum_crop_types_normalized.year.values
     y_vals = sum_crop_types_normalized.water_demand_with_2010_AW_values.values
