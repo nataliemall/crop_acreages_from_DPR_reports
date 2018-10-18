@@ -1,6 +1,8 @@
 ## Order of Operations 
-### Coming soon (late September 2018)
-Part 1: Download data at ftp://transfer.cdpr.ca.gov/pub/outgoing/pur_archives/
+### Working as of October 2018
+
+Part 1: Will be converted to a simple datascraper to do all this nonsense for you. Stay tuned. 
+For now: Download data at ftp://transfer.cdpr.ca.gov/pub/outgoing/pur_archives/
 1. Unzip each folder from 1974-2016 (e.g. pur1978.zip)
 2. save each folder as pur_data_raw/pur<year>   ( e.g. pur_data_raw/pur1975) 
 
