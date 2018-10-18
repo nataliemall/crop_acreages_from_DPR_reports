@@ -16,7 +16,6 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
     final_two_digits = final_two_digits[-2:]
 
     overall_data = pd.read_csv(str('pur_data_raw/pur' + str(year) + '/pur'+ str(final_two_digits) + '.txt'), sep = '\t')
-    # pdb.set_trace()
     # tlb_overall_data = overall_data[overall_data.county_cd == 54] 16 15 10
 
     tlb_county_cds = [10, 15, 16, 54]
@@ -31,7 +30,7 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
     tlb_overall_data = tlb_overall_data[~tlb_overall_data['township'].isnull()]
     tlb_township = np.int64(tlb_overall_data.township)
     tlb_overall_data.township = tlb_township
-    # pdb.set_trace()
+
     try:
         tlb_range = np.int64(tlb_overall_data.range)
         # tlb_range = np.int64(tlb_overall_data.range)
@@ -47,7 +46,7 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
 
     tlb_section = np.int64(tlb_overall_data.section)
     tlb_overall_data.section = tlb_section
-    # pdb.set_trace()
+
 
     len_dataset = len(tlb_overall_data.section)
     COMTRS = pd.DataFrame()
@@ -67,13 +66,12 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
     string_list_section = [str(item).zfill(2) for item in array_section]
     tlb_overall_data["section_string"] = string_list_section
 
-    # pdb.set_trace()
     # print('fix base line meridian here')
     # Replace "H" with "M" since this is clearly not using the Humbolt Meridian, but the Mount Diable meridian 
     # undone since this just exacerbated the problem 
     # tlb_overall_data.base_ln_mer = tlb_overall_data.base_ln_mer.replace('H', 'M')
     tlb_overall_data["base_ln_mer"]
-    # pdb.set_trace()
+    
     tlb_overall_data["comtrs"] = (tlb_overall_data["county_cd"].map(str) + tlb_overall_data["base_ln_mer"] + tlb_overall_data["township_string"]  + tlb_overall_data["tship_dir"] + tlb_overall_data["range_string"] + tlb_overall_data["range_dir"] + tlb_overall_data["section_string"])
 
     if os.path.isdir("pur_data_with_comtrs"):
@@ -88,7 +86,6 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
 def add_comtrs_1990_2004(year): #adds the comtrs as a column # preliminary processing of 1990 - 2004 data
     final_two_digits = str(year)
     final_two_digits = final_two_digits[-2:]
-    # pdb.set_trace()
     # Extract data from counties 10, 15, 16, 54
     overall_data_fresno = pd.read_csv(str('pur_data_cleaned/pur' + str(year) +'/udc' + final_two_digits + '_10_fixed.txt'), sep = ',', error_bad_lines = False, warn_bad_lines = True)
     overall_data_kern = pd.read_csv(str('pur_data_cleaned/pur' + str(year) +'/udc' + final_two_digits + '_15_fixed.txt'), sep = ',', error_bad_lines = False, warn_bad_lines = True)

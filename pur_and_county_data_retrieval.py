@@ -169,7 +169,6 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
 
             ### little block saving df by year for region
             totals_in_current_year = totals_in_irrig_dist[year].to_frame()
-            pdb.set_trace()
             if not 'df_all_years' in locals():  # starts building dataframe
                 df_all_years = totals_in_current_year.rename(columns = {0: year})
             else:  # adds to base each year
@@ -188,10 +187,9 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
             tree_data_by_comtrs.to_csv(str('data_for_qgis/' + str(irrigation_district) + str(year) + 'tree_data.csv'))
             annual_data_normalized = all_crop_data_normalized[annual_crop_columns]
             forage_data_normalized = all_crop_data_normalized[forage_crop_columns]
-            # pdb.set_trace()
+
             print(year)
-            print('check values here')
-            pdb.set_trace()
+
             acreage_by_crop_type = all_crop_data_normalized.sum()
             if year < 1990:  # calculate water use by multiplying the total acreage of for each crop type by its AW value
                 # acreage_by_crop_type.loc[crop_type]
@@ -292,12 +290,12 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
                         # pdb.set_trace()
                     except:
                         minumum_water_demand_for_crop = 0 
-                        pdb.set_trace()
+                        # pdb.set_trace()
                 elif (year > 1989) & (str(acreage_by_crop_type4.index[num]) in tree_crops_1990_2016):
                     try:
                         minumum_water_demand_for_crop = min_data_snipped2.AW_HR_2010_min.loc[row]
                     except: 
-                        pdb.set_trace()
+                        # pdb.set_trace()
                         minumum_water_demand_for_crop = 0 
                 else:
                     # pdb.set_trace()
@@ -393,7 +391,7 @@ def county_commissioner_data(irrigation_district):
         tree_crops_this_year = tree_crops_this_year_this_county.acres.sum()
         annual_crops_this_year = annual_crops_this_year_this_county.acres.sum()
         forage_crops_this_year = forage_crops_this_year_this_county.acres.sum()
-        # pdb.set_trace()
+
         acreage_of_all_crops = tree_crops_this_year + annual_crops_this_year + forage_crops_this_year
 
         sum_cc_crop_types.iloc[df_row]['year'] = year_date_time.year 
@@ -403,7 +401,6 @@ def county_commissioner_data(irrigation_district):
 
         sum_cc_crop_types.iloc[df_row]['percent_tree_crops'] = str(tree_crops_this_year / acreage_of_all_crops * 100)
         sum_cc_crop_types.set_index('year')
-        # pdb.set_trace()
 
     sum_cc_crop_types.to_csv(os.path.join(irrigation_district, str('cc_data' + str(irrigation_district) + '.csv')), index = False) 
         # annual_crop_columns = crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(annual_crops_1990_2016)]  # Columns that are tree crops 
