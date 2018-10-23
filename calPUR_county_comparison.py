@@ -72,7 +72,7 @@ if retrieve_data == 1:
         if not os.path.isdir(str(irrigation_district)):  # creates this folder 
             os.mkdir(str(irrigation_district))
 
-        sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district = retrieve_data_for_irrigation_district(irrigation_district, normalized)
+        sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district, totals_in_irrig_dist = retrieve_data_for_irrigation_district(irrigation_district, normalized)
 
 fig, ax = plt.subplots(2,2, sharex = True)
 plt.suptitle('Comparison of calPUR and County Commissioner Datasets', fontsize=14)

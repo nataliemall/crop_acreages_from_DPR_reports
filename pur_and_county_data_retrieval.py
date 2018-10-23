@@ -76,7 +76,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
     # totals_in_irrig_dist2 = pd.DataFrame({"crop_id" : [0,0,0,0,0], "agreage_year2019" : [0,0,0,0,0]})
 
 
-    for df_row, year in enumerate(tqdm(range(1989,1992))):    # editted here to include up to 2016 
+    for df_row, year in enumerate(tqdm(range(1974,2017))):    # editted here to include up to 2016 
         print(f'Compiling and normalizing the data into different crop types for year {year}')
         year_string = str(year) 
         year_two_digits = year_string[-2:]
