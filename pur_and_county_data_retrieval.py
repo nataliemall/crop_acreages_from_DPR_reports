@@ -14,11 +14,11 @@ from tqdm import tqdm  # for something in tqdm(something something):
 
 def retrieve_data_for_irrigation_district(irrigation_district, normalized):
 
-    irrigation_district_data = os.path.join('irrigation_districts_with_comtrs', irrigation_district + '.csv')
+    irrigation_district_comtrs_list = os.path.join('irrigation_districts_with_comtrs', irrigation_district + '.csv')
     try:
-        comtrs_in_irrigation_dist = pd.read_csv(irrigation_district_data, usecols = ['co_mtrs'])
+        comtrs_in_irrigation_dist = pd.read_csv(irrigation_district_comtrs_list, usecols = ['co_mtrs'])
     except:
-        comtrs_in_irrigation_dist = pd.read_csv(irrigation_district_data, usecols = ['CO_MTRS']) 
+        comtrs_in_irrigation_dist = pd.read_csv(irrigation_district_comtrs_list, usecols = ['CO_MTRS']) 
 
     crop_list = ['year', 'alfalfa', 'almonds', 'cotton', 'all_tree_crops', 'all_annual_crops', 'all_crops', 'percent_tree_crops' ]
     df_shape = (len(range(1974,2017)), len(crop_list))
@@ -77,20 +77,22 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
 
 
     for df_row, year in enumerate(tqdm(range(1974,2017))):    # editted here to include up to 2016 
-        print(f'Compiling and normalizing the data into different crop types for year {year}')
+        print(f'Analyzing the data for the given {irrigation_district} for year {year}')
         year_string = str(year) 
         year_two_digits = year_string[-2:]
         year_date_time = pd.to_datetime(year, format='%Y')
-        directory=os.path.join('calPIP_PUR_crop_acreages_july26', year_two_digits + 'files' )
+        # directory=os.path.join('calPIP_PUR_crop_acreages_july26', year_two_digits + 'files' )
 
         # directory=os.path.join('/Users/nataliemall/Box Sync/herman_research_box/tulare_git_repo/pur_data_raw/data_with_comtrs/')
-        comtrs_compiled_data = pd.read_csv(os.path.join(directory, ('all_data_year' + year_two_digits + '_by_COMTRS' + '.csv' )), sep = '\t')
+        comtrs_compiled_data = pd.read_csv(os.path.join('calPIP_PUR_crop_acreages', ('all_data_normalized_year' + year_two_digits + '_by_COMTRS' + '.csv' )), sep = '\t')
         # pdb.set_trace()
         # print('find county column here')
+        # pdb.set_trace()
         try:
-            crop_data_in_irrigation_district = comtrs_compiled_data.loc[(comtrs_compiled_data["level_0"].isin(comtrs_in_irrigation_dist.co_mtrs)) ]
+            crop_data_in_irrigation_district = comtrs_compiled_data.loc[(comtrs_compiled_data["comtrs"].isin(comtrs_in_irrigation_dist.co_mtrs)) ]
         except:
-            crop_data_in_irrigation_district = comtrs_compiled_data.loc[(comtrs_compiled_data["level_0"].isin(comtrs_in_irrigation_dist.CO_MTRS)) ]
+            crop_data_in_irrigation_district = comtrs_compiled_data.loc[(comtrs_compiled_data["comtrs"].isin(comtrs_in_irrigation_dist.CO_MTRS)) ]
+        
         crop_data_in_irrigation_district = crop_data_in_irrigation_district.rename(columns = {"level_0": "comtrs"}) 
         crop_data_in_irrigation_district = crop_data_in_irrigation_district.set_index('comtrs')
 
@@ -99,7 +101,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
             tree_crop_columns = crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(tree_crops_pre_1990)]  # Columns that are tree crops 
             annual_crop_columns =  crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(annual_crops_pre_1990)]
             forage_crop_columns = crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(forage_crops_pre_1990)]
-            print(tree_crop_columns)
+            # print(tree_crop_columns)
 
             
             all_crop_columns = crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(all_crops_pre_1990)] 
@@ -111,7 +113,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
                 # pdb.set_trace()
                 # print('test stuff out here - sept. 12, 2018')
             tree_crop_columns = crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(tree_crops_1990_2016)]  # Columns that are tree crops 
-            print(tree_crop_columns)
+            # print(tree_crop_columns)
             annual_crop_columns = crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(annual_crops_1990_2016)]  # Columns that are annual crops 
             forage_crop_columns = crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(forage_crops_1990_2016)]  # Columns that are annual crops 
             
@@ -145,27 +147,30 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
             # for each comtrs value, find the total number of acres (sum for all crop types)
             # multiply each value in the section by (640 / comtrs total)
             all_crop_data = crop_data_in_irrigation_district[all_crop_columns]
-            print('normalizing the above amounts so that the total acreage across crop types for each comtrs is not above 640 acres')
+            # print('normalizing the above amounts so that the total acreage across crop types for each comtrs is not above 640 acres')
             acreage_each_comtrs = all_crop_data.sum(axis = 1)
-            all_crop_data_normalized = all_crop_data  # start normalized dataframe 
+            # all_crop_data_normalized = all_crop_data  # start normalized dataframe 
 
-            number_of_skips = 0 
+            # number_of_skips = 0 
 
-            for num, comtrs in enumerate(tqdm(all_crop_data_normalized.index)):
-                # pdb.set_trace()
-                if all_crop_data.loc[comtrs].sum() > 640:
-                    # pdb.set_trace()
-                    all_crop_data_normalized.loc[comtrs] = all_crop_data_normalized.loc[comtrs] * 640 / acreage_each_comtrs.loc[comtrs]
-                    # pdb.set_trace()
-                    # tree_data_normalized.loc[comtrs] =  tree_data_normalized.loc[comtrs] * 640 / acreage_each_comtrs.loc[comtrs]    
-                else: 
-                    number_of_skips = number_of_skips + 1 
+            ## section below no longer necessary since data already normalized  
+            # for num, comtrs in enumerate(tqdm(all_crop_data_normalized.index)):
+            #     # pdb.set_trace()
+            #     if all_crop_data.loc[comtrs].sum() > 640:
+            #         # pdb.set_trace()
+            #         all_crop_data_normalized.loc[comtrs] = all_crop_data_normalized.loc[comtrs] * 640 / acreage_each_comtrs.loc[comtrs]
+            #         # pdb.set_trace()
+            #         # tree_data_normalized.loc[comtrs] =  tree_data_normalized.loc[comtrs] * 640 / acreage_each_comtrs.loc[comtrs]    
+            #     else: 
+            #         number_of_skips = number_of_skips + 1 
             # pdb.set_trace()
-            if not os.path.isdir('crop_data_by_year'):
-                os.mkdir('crop_data_by_year')
-            if irrigation_district == 'tlb_irrigation_districts_all':
-                all_crop_data_normalized.to_csv(str('crop_data_by_year/' + str(year) + 'crops_in_each_comtrs.csv'))  # saves overall dataset for each year 
-            totals_in_irrig_dist[year] = all_crop_data_normalized.sum(axis = 0)
+            # if not os.path.isdir('crop_data_by_year'):
+            #     os.mkdir('crop_data_by_year')
+            # if irrigation_district == 'tlb_irrigation_districts_all':
+            #     all_crop_data_normalized.to_csv(str('crop_data_by_year/' + str(year) + 'crops_in_each_comtrs.csv'))  # saves overall dataset for each year 
+            totals_in_irrig_dist[year] = all_crop_data.sum(axis = 0)
+
+
 
             ### little block saving df by year for region
             totals_in_current_year = totals_in_irrig_dist[year].to_frame()
@@ -176,21 +181,24 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
                 df_all_years = pd.merge(df_all_years, df_with_year_to_add, how = 'outer', left_index = True, right_index = True)
             ### end of little block saving df by year for region
 
+            # pdb.set_trace()
+            print('test out the df_all_years here')
+
             if not os.path.isdir(str(irrigation_district)):
                 os.mkdir(str(irrigation_district))
 
-            tree_data_normalized = all_crop_data_normalized[tree_crop_columns]
+            tree_data_normalized = all_crop_data[tree_crop_columns]
             tree_data_by_comtrs = tree_data_normalized.sum(axis = 1)  # for QGIS export 
 
             if not os.path.isdir('data_for_qgis'):
                 os.mkdir('data_for_qgis')
             tree_data_by_comtrs.to_csv(str('data_for_qgis/' + str(irrigation_district) + str(year) + 'tree_data.csv'))
-            annual_data_normalized = all_crop_data_normalized[annual_crop_columns]
-            forage_data_normalized = all_crop_data_normalized[forage_crop_columns]
+            annual_data_normalized = all_crop_data[annual_crop_columns]
+            forage_data_normalized = all_crop_data[forage_crop_columns]
 
             print(year)
 
-            acreage_by_crop_type = all_crop_data_normalized.sum()
+            acreage_by_crop_type = all_crop_data.sum()
             if year < 1990:  # calculate water use by multiplying the total acreage of for each crop type by its AW value
                 # acreage_by_crop_type.loc[crop_type]
                 # test = pd.merge(codes_pre_1990, acreage_by_crop_type)

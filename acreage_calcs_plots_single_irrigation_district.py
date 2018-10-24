@@ -32,12 +32,12 @@ plot_water_demand = 1
 create_bar_chart = 1
 
 # Counties 
-# irrigation_district = 'tlb_irrigation_districts_all'
+irrigation_district = 'tlb_irrigation_districts_all'
 
 # irrigation_district = 'Kings_County'
 # irrigation_district = 'Kern_County'
 # irrigation_district = 'Fresno_County'
-irrigation_district = 'Tulare_County'
+# irrigation_district = 'Tulare_County'
 
 # irrigation_district = 'North_Kern_Water_Storage_District'
 # irrigation_district = 'Cawelo_Water_District'
