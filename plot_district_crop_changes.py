@@ -60,7 +60,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 
 
-retrieve_data = 0
+retrieve_data = 1
 normalized = 1
 high_perennials = 0   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
 
@@ -99,7 +99,7 @@ if high_perennials == 1:
     irrigation_district_list = [
         'Orange Cove Irrigation District',
         'Cawelo Water District',
-        'Cawelo Water District',
+        'Kern Delta Water District',
         'Fresno Irrigation District'] 
 
 if high_perennials == 0:
@@ -122,7 +122,7 @@ if retrieve_data == 1:
         if not os.path.isdir(str(irrigation_district)):  # creates this folder 
             os.mkdir(str(irrigation_district))
 
-        sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district = retrieve_data_for_irrigation_district(irrigation_district, normalized)
+        sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district, totals_in_irrig_dist = retrieve_data_for_irrigation_district(irrigation_district, normalized)
 
 # pdb.set_trace()
 fig, ax = plt.subplots(2,2, sharex = True)

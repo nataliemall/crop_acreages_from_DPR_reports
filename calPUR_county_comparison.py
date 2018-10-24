@@ -40,21 +40,21 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, sum_cc_crop
         ax[row, column].add_collection(collection2)
 
     x_vals = sum_crop_types.year.values
-    y_vals = sum_crop_types.all_tree_crops_normalized.values
+    y_vals = sum_crop_types.all_tree_crops_normalized.values  / 1000 # thousands of acres
     ax[row, column].plot(x_vals, y_vals, color = 'g', label = 'calPUR tree crop acreage normalized')
 
-    annual_crop_y_vals = sum_crop_types.all_annual_crops.values
+    annual_crop_y_vals = sum_crop_types.all_annual_crops.values  / 1000 # thousands of acres
     # pdb.set_trace()
 
     ax[row, column].plot(x_vals, annual_crop_y_vals, color = 'y', label = 'calPUR annual crop acreage')
 
     # add County Commissioner Data:
     x_vals_cc = sum_cc_crop_types.year.values
-    y_vals_tree_cc = sum_cc_crop_types.all_tree_crops.values
-    y_vals_annual_cc = sum_cc_crop_types.all_annual_crops.values
+    y_vals_tree_cc = sum_cc_crop_types.all_tree_crops.values  / 1000 # thousands of acres
+    y_vals_annual_cc = sum_cc_crop_types.all_annual_crops.values  / 1000 # thousands of acres
     ax[row, column].plot(x_vals_cc, y_vals_tree_cc, linestyle = '-.', color = 'g', label = 'County Commissioner tree crop acreage')
     ax[row, column].plot(x_vals_cc, y_vals_annual_cc, color = 'y', linestyle = '-.', label = 'County Commissioner annual crop acreage')    
-
+    ax[row, column].set_ylim(0)
     # ax[row, column].plot()
     if num == 1:
         ax[row, column].legend(loc = 0)  # places legend in best location 
@@ -62,7 +62,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, sum_cc_crop
 
 
 
-retrieve_data = 1
+retrieve_data = 0
 normalized = 1 
 
 county_list = [ 'Fresno_County', 'Tulare_County', 'Kings_County', 'Kern_County']
@@ -76,8 +76,8 @@ if retrieve_data == 1:
 
 fig, ax = plt.subplots(2,2, sharex = True)
 plt.suptitle('Comparison of calPUR and County Commissioner Datasets', fontsize=14)
-fig.text(0.5, 0.04, 'Year', ha='center')
-fig.text(0.04, 0.5, 'Crop acreage within county [acres]', va='center', rotation='vertical')
+fig.text(0.5, 0.04, 'Year', ha='center', size = 13 )
+fig.text(0.04, 0.5, 'Total crops grown within county [thousands of acres]', va='center', rotation='vertical', size = 13 )
 
 sum_crop_types_each_county = {}
 sum_cc_crop_types = {}

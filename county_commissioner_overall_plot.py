@@ -40,7 +40,7 @@ plt.plot(year_array, (county_annual_crops_total.values / 1000000) , color = 'y',
 plt.legend()
 plt.title('Crop Acreage Change in Tulare Lake Basin')
 plt.xlabel('Year')
-plt.ylabel('Acres of crops grown (in millions of acres)')
+plt.ylabel('Total area of crops grown (millions of acres)')
 
 if not os.path.isdir('figure_drafts'):
     os.mkdir('figure_drafts')

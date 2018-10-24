@@ -72,7 +72,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
     # pdb.set_trace()
     # all_crops_pre_1990 = [str(round(i)) for i in test1]
 
-    totals_in_irrig_dist = {}   # creates dictionary for totals 
+    totals_in_irrig_dist = {}   # creates dictionary for totals c
     # totals_in_irrig_dist2 = pd.DataFrame({"crop_id" : [0,0,0,0,0], "agreage_year2019" : [0,0,0,0,0]})
 
 
