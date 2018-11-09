@@ -41,7 +41,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, sum_cc_crop
 
     x_vals = sum_crop_types.year.values
     y_vals = sum_crop_types.all_tree_crops_normalized.values  / 1000 # thousands of acres
-    ax[row, column].plot(x_vals, y_vals, color = 'g', label = 'calPUR tree crop acreage normalized')
+    ax[row, column].plot(x_vals, y_vals, color = 'g', label = 'calPUR tree crop acreage')
 
     annual_crop_y_vals = sum_crop_types.all_annual_crops.values  / 1000 # thousands of acres
     # pdb.set_trace()
@@ -62,7 +62,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, sum_cc_crop
 
 
 
-retrieve_data = 1
+retrieve_data = 0
 normalized = 1 
 
 county_list = [ 'Fresno_County', 'Tulare_County', 'Kings_County', 'Kern_County']
@@ -76,8 +76,8 @@ if retrieve_data == 1:
 
 fig, ax = plt.subplots(2,2, sharex = True)
 plt.suptitle('Comparison of calPUR and County Commissioner Datasets', fontsize=14)
-fig.text(0.5, 0.04, 'Year', ha='center', size = 13 )
-fig.text(0.04, 0.5, 'Total crops grown within county [thousands of acres]', va='center', rotation='vertical', size = 13 )
+fig.text(0.5, 0.04, 'Year', ha='center', size = 14 )
+fig.text(0.04, 0.5, 'Total crops grown within county [thousands of acres]', va='center', rotation='vertical', size = 14 )
 
 sum_crop_types_each_county = {}
 sum_cc_crop_types = {}

@@ -25,19 +25,20 @@ from plotting_functions import plot_all_the_irrigation_district_bar_charts
 # from pur_and_county_data_retrieval import 
 
 normalized = 1
-retrieve_data = 1
+retrieve_data = 0
 plot_single_irrigation_district = 1 
 compare_with_county_data = 1
-plot_water_demand = 1
-create_bar_chart = 1
+plot_water_demand = 0
+create_bar_chart = 0
 
 # Counties 
-irrigation_district = 'tlb_irrigation_districts_all'
+# irrigation_district = 'tlb_irrigation_districts_all'
+# irrigation_district = 'comtrs_all_sections'
 
 # irrigation_district = 'Kings_County'
 # irrigation_district = 'Kern_County'
 # irrigation_district = 'Fresno_County'
-# irrigation_district = 'Tulare_County'
+irrigation_district = 'Tulare_County'
 
 # irrigation_district = 'North_Kern_Water_Storage_District'
 # irrigation_district = 'Cawelo_Water_District'
@@ -94,7 +95,7 @@ if compare_with_county_data == 1:  # county data only
     else:    
         plot_dataset_comparison(irrigation_district, sum_crop_types, sum_cc_crop_types )
 
-# pdb.set_trace()
+pdb.set_trace()
 
 if plot_water_demand == 1:
     plot_water_demand_graph(sum_crop_types_normalized, irrigation_district)
@@ -112,6 +113,6 @@ if (create_bar_chart == 1) & (compare_with_county_data == 0):
 
 
 
-
+pdb.set_trace() 
 
 

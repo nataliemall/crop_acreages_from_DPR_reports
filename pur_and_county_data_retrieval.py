@@ -26,7 +26,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
     sum_crop_types = pd.DataFrame(zero_fillers, columns = [ crop_list ] )
 
     # crop_list = ['year', 'alfalfa', 'almonds', 'cotton', 'all_tree_crops', 'all_annual_crops', 'all_crops', 'percent_tree_crops' ]
-    crop_list_normalized = [ 'year', 'all_tree_crops_normalized', 'all_annual_crops', 'all_crops', 'percent_tree_crops', 'water_demand_with_2010_AW_values', 'water_demand_with_changing_AW_values', 'minimum_water_demand_for_year']
+    crop_list_normalized = [ 'year', 'all_tree_crops_normalized', 'all_annual_crops', 'all_crops', 'percent_tree_crops', 'water_demand_with_2010_AW_values', 'deficit_irrigation_water_demand_for_year', 'perennial_irrigation_water_demand_for_year']
     df_shape_normalized = (len(range(1974,2017)), len(crop_list_normalized))
     zero_fillers_normalized = np.zeros(df_shape_normalized)
     sum_crop_types_normalized = pd.DataFrame(zero_fillers_normalized, columns = [ crop_list_normalized ] )
@@ -251,6 +251,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
 
             min_data_snipped = HR_min_data.head(23)
             min_data_snipped2 = min_data_snipped.set_index('crop_name_HR_2010')
+            # perennial_data = H  
 
             # acreage_by_crop_type4['AW_acre_feet'] = HR_2010_AW_Data_snipped2['AW_HR_2010'].loc[HR_2010_AW_Data_snipped2.index]
             acreage_by_crop_type4['acreage_within_region'] = acreage_by_crop_type4[0]
@@ -261,6 +262,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
             acreage_by_crop_type4['applied_water_per_acre_by_dwr_year'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
             acreage_by_crop_type4['applied_water_for_this_crop_type_by_dwr_year'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
             acreage_by_crop_type4['minimum_applied_water_per_acre'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
+            acreage_by_crop_type4['perennial_applied_water_per_acre'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
             # pdb.set_trace()
 
             ## Commented out changing water values because no longer necessary ### 
@@ -294,20 +296,25 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
                 
                 if (year < 1990) & (str(acreage_by_crop_type4.index[num]) in tree_crops_pre_1990):
                     try:
-                        minumum_water_demand_for_crop = min_data_snipped2.AW_HR_2010_min.loc[row]
+                        deficit_water_demand_for_crop = min_data_snipped2.AW_HR_2010_min.loc[row]  # deficit water demand 
+                        perennial_water_demand_for_crop = HR_2010_AW_Data_snipped2.AW_HR_2010.loc[row]    # 100% water for perennials
                         # pdb.set_trace()
                     except:
-                        minumum_water_demand_for_crop = 0 
+                        deficit_water_demand_for_crop = 0 
+                        perennial_water_demand_for_crop = 0 
                         # pdb.set_trace()
                 elif (year > 1989) & (str(acreage_by_crop_type4.index[num]) in tree_crops_1990_2016):
                     try:
-                        minumum_water_demand_for_crop = min_data_snipped2.AW_HR_2010_min.loc[row]
+                        deficit_water_demand_for_crop = min_data_snipped2.AW_HR_2010_min.loc[row]  # deficit water demand
+                        perennial_water_demand_for_crop = HR_2010_AW_Data_snipped2.AW_HR_2010.loc[row]
                     except: 
                         # pdb.set_trace()
-                        minumum_water_demand_for_crop = 0 
-                else:
+                        deficit_water_demand_for_crop = 0 
+                        perennial_water_demand_for_crop = 0
+                else:                                           # water demands go to zero if not perennial crops 
                     # pdb.set_trace()
-                    minumum_water_demand_for_crop = 0 
+                    deficit_water_demand_for_crop = 0 
+                    perennial_water_demand_for_crop = 0
 
 
                 try:
@@ -316,15 +323,19 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
                     applied_water_numerical_value = 0 
 
                 acreage_by_crop_type4['applied_water_per_acre'].iloc[num] = applied_water_numerical_value
-                acreage_by_crop_type4['minimum_applied_water_per_acre'].iloc[num] = minumum_water_demand_for_crop
-
+                acreage_by_crop_type4['minimum_applied_water_per_acre'].iloc[num] = deficit_water_demand_for_crop
+                acreage_by_crop_type4['perennial_applied_water_per_acre'].iloc[num] = perennial_water_demand_for_crop
 
             # pdb.set_trace()
             acreage_by_crop_type4['applied_water_for_this_crop_type'] = acreage_by_crop_type4.acreage_within_region * np.float64(acreage_by_crop_type4.applied_water_per_acre)
-            acreage_by_crop_type4['minimum_water_for_this_crop_type'] = acreage_by_crop_type4.acreage_within_region * np.float64(acreage_by_crop_type4.minimum_applied_water_per_acre)
+            acreage_by_crop_type4['deficit_irrigation_for_this_crop_type'] = acreage_by_crop_type4.acreage_within_region * np.float64(acreage_by_crop_type4.minimum_applied_water_per_acre)
+            acreage_by_crop_type4['perennial_irrigation_for_this_crop_type'] = acreage_by_crop_type4.acreage_within_region * np.float64(acreage_by_crop_type4.perennial_applied_water_per_acre)
 
             total_water_demand_for_year = acreage_by_crop_type4.applied_water_for_this_crop_type.sum()
-            minumum_water_demand_for_year = acreage_by_crop_type4.minimum_water_for_this_crop_type.sum()
+            deficit_irrigation_water_demand_for_year = acreage_by_crop_type4.deficit_irrigation_for_this_crop_type.sum()
+            perennial_irrigation_water_demand_for_year = acreage_by_crop_type4.perennial_irrigation_for_this_crop_type.sum()
+            # pdb.set_trace()
+            print('test out crop type here')
             ## include minumum demand for year here
             # minumum_water_demand_for_year = acreage_by_crop_type4
 
@@ -342,7 +353,8 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
             sum_crop_types_normalized.iloc[df_row]['water_demand_with_2010_AW_values'] = total_water_demand_for_year  # uses DWR's applied water demand estimates for 2010 
             # sum_crop_types_normalized.iloc[df_row]['water_demand_with_changing_AW_values'] = total_water_demand_for_year_changing_AW # not needed- uses changing applied water demand estimates from DWR
 
-            sum_crop_types_normalized.iloc[df_row]['minimum_water_demand_for_year'] = minumum_water_demand_for_year  # minimum water demand for year (50% of water demand of perennial crops)
+            sum_crop_types_normalized.iloc[df_row]['deficit_irrigation_water_demand_for_year'] = deficit_irrigation_water_demand_for_year  # minimum water demand for year (50% of water demand of perennial crops)
+            sum_crop_types_normalized.iloc[df_row]['perennial_irrigation_water_demand_for_year'] = perennial_irrigation_water_demand_for_year  # water demand for perennial crops at 100% irrigation 
             sum_crop_types_normalized.set_index('year')
 
         else:

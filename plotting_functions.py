@@ -55,6 +55,7 @@ def plot_dataset_comparison(irrigation_district, sum_crop_types, sum_cc_crop_typ
     ax.plot(x_vals_cc, y_vals_annual_cc, color = 'y', linestyle = '-.', label = 'County Commissioner annual crop acreage')    
 
     ax.plot()
+    plt.ylim(0)
     plt.legend()
     plt.savefig(os.path.join(str(irrigation_district), str(irrigation_district) + '_cc_comparison'), dpi = 300)
     # plt.show()

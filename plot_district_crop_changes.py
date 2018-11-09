@@ -45,6 +45,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
     ax[row, column].plot(x_vals, annual_crop_y_vals, color = 'y', label = 'calPUR annual crop acreage')
     ax[row, column].set_ylim(0)
+    ax[row, column].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
     # add County Commissioner Data:
     # x_vals_cc = sum_cc_crop_types.year.values
     # y_vals_tree_cc = sum_cc_crop_types.all_tree_crops.values
@@ -60,9 +61,9 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 
 
-retrieve_data = 1
+retrieve_data = 0
 normalized = 1
-high_perennials = 0   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 0  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
@@ -95,27 +96,61 @@ high_perennials = 0   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched
 #     'Firebaugh Canal Company',
 #     'Dudley Ridge Water District'] 
 
-if high_perennials == 1:
+if high_perennials == 0:    # mostly annuals 
     irrigation_district_list = [
+        'Tulare Lake Basin Water Storage District',
+        'Tulare Irrigation District',
+        'Westlands Water District',
+        'Kern Delta Water District']
+
+if high_perennials == 1:  # mostly perennials
+    irrigation_district_list = [
+        'Cawelo Water District', 
         'Orange Cove Irrigation District',
-        'Cawelo Water District',
-        'Kern Delta Water District',
+        'Lindmore Irrigation District',
         'Fresno Irrigation District'] 
 
-if high_perennials == 0:
-    irrigation_district_list = [
-        'Tulare Irrigation District',
-        'Tulare Lake Basin Water Storage District',
-        'Westlands Water District',
-        'Panoche Water District']
-
-if high_perennials == 2:
+if high_perennials == 2:   # shifted 
     irrigation_district_list = [
         'Wheeler Ridge - Maricopa Water Storage District',
-        'Semitropic Water Service District',
         'Lost Hills Water District',
+        'Semitropic Water Service District',
         'Shafter - Wasco Irrigation District'] 
 
+if high_perennials == 3:    # extra
+    irrigation_district_list = [
+        'James Irrigation District',   # mostly annuals, switches at the very end 
+        'Firebaugh Canal Company',
+        'Lindmore Irrigation District',
+        'Arvin - Edison Water Storage District'] 
+
+if high_perennials == 4:    # more extra
+    irrigation_district_list = [
+        'Pixley Irrigation District',  # mostly annuals
+        'Riverdale Irrigation District',   # mostly annuals 
+        'Consolidated Irrigation District',   # mostly perennials
+        'Buena Vista Water Storage District']   # switches at the end 
+
+if high_perennials == 5:    # even more extra
+    irrigation_district_list = [
+        'Kern Delta Water District',        
+        'Delano - Earlimart Irrigation District',
+        'North Kern Water Storage District',
+        'Berrenda Mesa Water District']
+
+if high_perennials == 6:    # even more extra
+    irrigation_district_list = [
+        'Kern - Tulare Water District',       
+        'Corcoran Irrigation District',
+        'Dudley Ridge Water District',
+        'Kings River Water District',]
+
+if high_perennials == 7:    # even more extra
+    irrigation_district_list = [
+        'Alta Irrigation District',      
+        'Lower Tule River Irrigation District',
+        'Dudley Ridge Water District',
+        'Kings River Water District',]
 
 if retrieve_data == 1: 
     for irrigation_district in irrigation_district_list: 
@@ -133,8 +168,8 @@ if high_perennials == 0:
 if high_perennials == 2:
     plt.suptitle('Agricultural Acreage for Irrigation Districts with Shift to Perennial Crops', fontsize=14)
 
-fig.text(0.5, 0.04, 'Year', ha='center')
-fig.text(0.04, 0.5, 'Crop acreage within irrigation district [thousands]', va='center', rotation='vertical')
+fig.text(0.5, 0.04, 'Year', ha='center', fontsize=14)
+fig.text(0.04, 0.5, 'Crop acreage within irrigation district [thousands]', va='center', rotation='vertical', fontsize=14)
 
 # pdb.set_trace()
 sum_crop_types_each_county = {}

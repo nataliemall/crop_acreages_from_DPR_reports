@@ -48,14 +48,22 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
     # add minimum water demand Data:
     x_vals_min = sum_crop_types.year.values
-    y_vals_min = sum_crop_types.minimum_water_demand_for_year.values / 1000 # convert to TAF
+    y_vals_min = sum_crop_types.deficit_irrigation_water_demand_for_year.values / 1000 # convert to TAF
+    y_vals_perennial = sum_crop_types.perennial_irrigation_water_demand_for_year.values / 1000 
     y_vals_estimated = sum_crop_types.water_demand_with_2010_AW_values.values / 1000 # convert to TAF
-    ax[row, column].plot(x_vals_min, y_vals_min, color = '#41b6c4', label = 'Minimum water required for perennial crop survival')
-    ax[row, column].plot(x_vals_min, y_vals_estimated, color = '#225ea8', label = 'Estimated water demand')    
+    ax[row, column].plot(x_vals_min, y_vals_estimated, color = '#9ecae1', label = 'Irrigation water demand')    
+    ax[row, column].plot(x_vals_min, y_vals_perennial, color = '#4292c6', label = 'Irrigation water demand - perennials only')
+    ax[row, column].plot(x_vals_min, y_vals_min, color = '#084594', label = 'Deficit irrigation water required for perennial crop survival')
     ax[row, column].set_ylim(0)
+    ax[row, column].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
     # ax[row, column].plot()
-    if num == 1:
-        ax[row, column].legend(loc = 0)  # places legend in best location 
+
+    if high_perennials == 2:
+        if num == 2:
+            ax[row, column].legend(loc = 0)  # places legend in best location of lower left subplot
+    else:
+        if num == 1:
+            ax[row, column].legend(loc = 0)  # places legend in best location 
 
 
 
@@ -63,7 +71,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 retrieve_data = 0
 normalized = 1
-high_perennials = 0   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 1   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
@@ -96,26 +104,63 @@ high_perennials = 0   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched
 #     'Firebaugh Canal Company',
 #     'Dudley Ridge Water District'] 
 
-if high_perennials == 1:
+if high_perennials == 0:    # mostly annuals 
     irrigation_district_list = [
+        'Tulare Lake Basin Water Storage District',
+        'Tulare Irrigation District',
+        'Westlands Water District',
+        'Kern Delta Water District']
+
+if high_perennials == 1:  # mostly perennials
+    irrigation_district_list = [
+        'Cawelo Water District', 
         'Orange Cove Irrigation District',
-        'Cawelo Water District',
-        'Cawelo Water District',
+        'Lindmore Irrigation District',
         'Fresno Irrigation District'] 
 
-if high_perennials == 0:
-    irrigation_district_list = [
-        'Tulare Irrigation District',
-        'Tulare Lake Basin Water Storage District',
-        'Westlands Water District',
-        'Panoche Water District']
 
-if high_perennials == 2:
+if high_perennials == 2:   # shifted 
     irrigation_district_list = [
         'Wheeler Ridge - Maricopa Water Storage District',
-        'Semitropic Water Service District',
         'Lost Hills Water District',
+        'Semitropic Water Service District',
         'Shafter - Wasco Irrigation District'] 
+
+if high_perennials == 3:    # extra
+    irrigation_district_list = [
+        'James Irrigation District',
+        'Firebaugh Canal Company',
+        'Lindmore Irrigation District',
+        'Arvin - Edison Water Storage District'] 
+
+
+if high_perennials == 4:    # more extra
+    irrigation_district_list = [
+        'Pixley Irrigation District',  # mostly annuals
+        'Riverdale Irrigation District',   # mostly annuals 
+        'Consolidated Irrigation District',   # mostly perennials
+        'Buena Vista Water Storage District']   # switches at the end 
+
+if high_perennials == 5:    # even more extra
+    irrigation_district_list = [
+        'Kern Delta Water District',        
+        'Delano - Earlimart Irrigation District',
+        'North Kern Water Storage District',
+        'Berrenda Mesa Water District']
+
+if high_perennials == 6:    # even more extra
+    irrigation_district_list = [
+        'Kern - Tulare Water District',       
+        'Corcoran Irrigation District',
+        'Dudley Ridge Water District',
+        'Kings River Water District',]
+
+if high_perennials == 7:    # even more extra
+    irrigation_district_list = [
+        'Alta Irrigation District',      
+        'Lower Tule River Irrigation District',
+        'Dudley Ridge Water District',
+        'Kings River Water District',]
 
 
 if retrieve_data == 1: 
@@ -123,7 +168,7 @@ if retrieve_data == 1:
         if not os.path.isdir(str(irrigation_district)):  # creates this folder 
             os.mkdir(str(irrigation_district))
 
-        sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district = retrieve_data_for_irrigation_district(irrigation_district, normalized)
+        sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district, totals_in_irrig_dist = retrieve_data_for_irrigation_district(irrigation_district, normalized)
 
 fig, ax = plt.subplots(2,2, sharex = True)
 if high_perennials == 1:
@@ -133,14 +178,15 @@ if high_perennials == 0:
 if high_perennials == 2:
     plt.suptitle('Water Demand for Irrigation Districts with Shift to Perennial Crops', fontsize=14)
 
-fig.text(0.5, 0.04, 'Year', ha='center')
-fig.text(0.04, 0.5, 'Agriculatural water demand within irrigation district (TAF)', va='center', rotation='vertical')
+fig.text(0.5, 0.04, 'Year', ha='center', fontsize = 14)
+fig.text(0.04, 0.5, 'Agriculatural water demand within irrigation district (TAF)', va='center', rotation='vertical', fontsize = 14)
 
 # pdb.set_trace()
 sum_crop_types_each_county = {}
 
 for num, irrigation_district in enumerate(irrigation_district_list): 
     sum_crop_types_each_county[irrigation_district] = pd.read_csv(os.path.join(irrigation_district, str('calPUR_data_normalized' + str(irrigation_district) + '.csv')))
+    # pdb.set_trace()
     subplots_dataset_comparison(irrigation_district, sum_crop_types_each_county[irrigation_district], num , fig, ax  )
 
 
