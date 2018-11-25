@@ -98,6 +98,7 @@ def set_up_overall_table(irrigation_district_list):
 
     overall_ID_columns = [     # Create columns for overall dataframe
         'baseline_revenue',
+        'baseline_acreage',
 
         'curtailment_af_baseline',
         'total_revenue_lost_baseline',
@@ -197,7 +198,7 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
     district_crops_sorted_by_water_value = pd.read_csv(os.path.join(irrigation_district, 'table_major_crops_in_district.csv'), index_col = [0])
 
     district_crops_sorted_by_water_value.revenue_per_af_water = district_crops_sorted_by_water_value.revenue_per_af_water.fillna(value = 0)  # convert nans to zeros 
-
+    baseline_acreage = district_crops_sorted_by_water_value.acreage_2016.values.sum()
 
     water_portfolios = pd.read_csv('irrigation_district_water_portfolios.csv', index_col = 'irrigation district' )  # 2009 is a normal year 
     wet_year_surface_water = water_portfolios.wet_year_surface_water[irrigation_district]
@@ -476,7 +477,7 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
     total_acres_fallowed = acres_fallowed
 
     # pdb.set_trace()
-    return total_revenue_lost, curtailment_af, total_acres_fallowed, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled
+    return total_revenue_lost, curtailment_af, total_acres_fallowed, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled, baseline_acreage
 
     # pdb.set_trace()
 
@@ -595,13 +596,13 @@ for curtailment_level in curtailment_level_list:
     # Curtailment calcs for irrigation district 
     for irrigation_district in irrigation_district_list:
 
-        deficit_irrigation = 1  # if deficit_irrigation = 1 , orchard crop revenue loss is calculated by reducing irrigation 50% and eliminating crop yield for season 
+        deficit_irrigation = 0  # if deficit_irrigation = 1 , orchard crop revenue loss is calculated by reducing irrigation 50% and eliminating crop yield for season 
     
         # retrieve data to calculate AF water shortage (base year)
         if curtailment_level == 'baseline':
             deficit_irrigation = 1 
 
-        total_revenue_lost, curtailment_af, total_acres_fallowed, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled = calculate_water_curtailment(irrigation_district, curtailment_level, deficit_irrigation)
+        total_revenue_lost, curtailment_af, total_acres_fallowed, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled, baseline_acreage = calculate_water_curtailment(irrigation_district, curtailment_level, deficit_irrigation)
 
         if curtailment_level == 'baseline':
             overall_ID_table.curtailment_af_baseline[irrigation_district] = curtailment_af
@@ -610,6 +611,7 @@ for curtailment_level in curtailment_level_list:
             overall_ID_table.perennial_acres_fallowed_baseline[irrigation_district] = acres_fallowed_perennials
             overall_ID_table.total_acres_fallowed_baseline[irrigation_district] = total_acres_fallowed
             overall_ID_table.total_orchards_pulled_baseline[irrigation_district] = acres_pulled
+            overall_ID_table.baseline_acreage[irrigation_district] = baseline_acreage
         if curtailment_level == 'gw_reduction_25_percent':
             overall_ID_table.curtailment_af_25[irrigation_district] = curtailment_af
             overall_ID_table.total_revenue_lost_25[irrigation_district] = total_revenue_lost
