@@ -14,17 +14,17 @@ import unittest
 
 
 
-def import_data(deficit_irrigation):
-	if deficit_irrigation == 1:
-		overall_ID_table = pd.read_csv('deficit_irrigation_revenue_loss_estimates.csv', index_col = [0])  # import deficit irrigation data 
+def import_data(deficit_irrigation_option):
+	if deficit_irrigation_option == 1:
+		overall_ID_table = pd.read_csv('deficit_irrigation_option_revenue_loss_estimates.csv', index_col = [0])  # import deficit irrigation data 
 	else:
 		overall_ID_table =pd.read_csv('overall_irrigation_district_revenue_loss_estimates_to_graph.csv', index_col = [0])  # import data 
 
 	return overall_ID_table 
 
-def plot_dollar_losses(deficit_irrigation):
+def plot_dollar_losses(deficit_irrigation_option):
 
-	overall_ID_table = import_data(deficit_irrigation)
+	overall_ID_table = import_data(deficit_irrigation_option)
 
 	n_groups = len(overall_ID_table)
 
@@ -54,7 +54,7 @@ def plot_dollar_losses(deficit_irrigation):
 
 	plt.xlabel('Revenue loss, millions of dollars')
 
-	if deficit_irrigation == 1:
+	if deficit_irrigation_option == 1:
 		plt.title('Revenue Loss for Irrigation Districts Assuming Regulated Deficiency Irrigation')
 	else:
 		plt.title('Economic Analysis of Revenue Loss for Irrigation Districts')
@@ -66,9 +66,9 @@ def plot_dollar_losses(deficit_irrigation):
 	plt.show()
 
 
-def plot_losses_as_percent_total_revenue(deficit_irrigation):
+def plot_losses_as_percent_total_revenue(deficit_irrigation_option):
 
-	overall_ID_table = import_data(deficit_irrigation)
+	overall_ID_table = import_data(deficit_irrigation_option)
 
 	n_groups = len(overall_ID_table)
 
@@ -97,13 +97,14 @@ def plot_losses_as_percent_total_revenue(deficit_irrigation):
 	                 color='r',
 	                 label='Percent revenue loss with 50% of dry year GW use')
 
-	if deficit_irrigation == 1:
+	if deficit_irrigation_option == 1:
 		plt.title('Economic Analysis of Revenue Loss for Irrigation Districts Utilizing Deficit Irrigation')
 	else:
 		plt.title('Economic Analysis of Revenue Loss for Irrigation Districts')
 
 
 	plt.xlabel('Percent revenue loss')
+	plt.xlim(0,120)
 	plt.yticks(index + bar_width, (overall_ID_table.index))
 	# pdb.set_trace()
 	plt.legend()
@@ -113,11 +114,11 @@ def plot_losses_as_percent_total_revenue(deficit_irrigation):
 
 
 
-deficit_irrigation = 1
+deficit_irrigation_option = 0
 
 
-plot_dollar_losses(deficit_irrigation)
-plot_losses_as_percent_total_revenue(deficit_irrigation)
+plot_dollar_losses(deficit_irrigation_option)
+plot_losses_as_percent_total_revenue(deficit_irrigation_option)
 
 
 
