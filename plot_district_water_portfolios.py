@@ -87,11 +87,17 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
     try:
         wet_year_label = np.int64(water_portfolios.sample_wet_year[irrigation_district])
-    except:
         # pdb.set_trace()
+    except:
         wet_year_label = str(water_portfolios.sample_wet_year[irrigation_district])
 
+    if abs(wet_year_label) < 0:
+        wet_year_label = 'no data'
     x_labels = [str('wet year ('+ str(wet_year_label) + ')' ),   str( 'dry year (' + str(dry_year_label) + ')' )]
+    if wet_year_label == 2008:
+        x_labels = [str('normal year ('+ str(wet_year_label) + ')' ),   str( 'dry year (' + str(dry_year_label) + ')' )]
+
+
     surface_levels = [ (wet_year_surface_water / 1000) , (dry_year_surface_water/1000 )]  # divide by 1000 to convert to TAF
     gw_levels = [(wet_year_gw/ 1000), (dry_year_gw/ 1000) ]  # divide by 1000 to convert to TAF
 
@@ -138,8 +144,9 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
     # ax[row, column].plot()
     if num == 1:
         # ax[row, column].legend(loc = 0)  # places legend in best location 
-        if high_perennials == 0 | high_perennials == 1:
+        if (high_perennials == 0) or (high_perennials == 1) :
             ax[row, column].legend(loc = "lower left")
+            pdb.set_trace()
         else:
             ax[row, column].legend(loc = "lower right")
 
@@ -199,7 +206,7 @@ if high_perennials == 1:  # mostly perennials
 if high_perennials == 2:   # shifted 
     irrigation_district_list = [
         'Wheeler Ridge - Maricopa Water Storage District',
-        'Lost Hills Water District',
+        'North Kern Water Storage District',
         'Semitropic Water Service District',
         'Shafter - Wasco Irrigation District'] 
 

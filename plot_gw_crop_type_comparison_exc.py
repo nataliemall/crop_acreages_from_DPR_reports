@@ -107,7 +107,7 @@ irrigation_district_list = [
     'Corcoran Irrigation District',
     'Fresno Irrigation District',
     'James Irrigation District',
-    'Kings River Water District',
+    # 'Kings River Water District',
     'Lindmore Irrigation District',
     'Orange Cove Irrigation District',
     # 'Panoche Water District',

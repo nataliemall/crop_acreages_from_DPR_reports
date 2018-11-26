@@ -313,7 +313,7 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
             curtailment_remaining = curtailment_af - acre_feet_curtailed
             acres_fallowed_annuals = district_annual_crops.acreage_2016.sum()
             acres_fallowed = acres_fallowed_annuals
-            
+            acres_pulled = 0 
             # pdb.set_trace()
             # print('test acres fallowed calcs here')
 
@@ -334,11 +334,13 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
 
             district_perennial_crops_sorted = district_perennial_crops.sort_values('cost_pulling_replanting_orchard_per_acre_year5')
             district_perennial_crops = district_perennial_crops_sorted  # for crop pulling, sort crops by cheapest to pull and replant 
+            district_perennial_crops['orchard_crop_pulled'] = np.zeros(len(district_perennial_crops))
 
             for num, crop_af_demanded in enumerate(district_perennial_crops.af_demanded_2016.tolist()):
 
                 if deficit_irrigation_option == 1: 
                     if district_perennial_crops.cost_pulling_replanting_orchard_per_acre_year5.values[num] * district_perennial_crops.acreage_2016.values[num]  < district_perennial_crops.revenue_per_af_water.values[num] * crop_af_demanded:  # cheaper to pull than to fallow
+                        district_perennial_crops.orchard_crop_pulled.values[num] = 1 # this crop is pulled because it's cheaper to do so
                         # pdb.set_trace()
                         # print('this crop is more expensive to fallow than to pull')
                         use_rdi = 0 # if it's cheaper to pull the crop, do not use rdi 
@@ -372,7 +374,8 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                         if use_rdi == 1:
                             revenue_lost_this_crop = district_perennial_crops.revenue_per_af_water.values[num] * crop_af_demanded
                             # curtailment_remaining = curtailment_af -  acre_feet_curtailed  # acre_feet_curtailed = 50% of water supplied to crop
-                        
+                        if use_rdi == 0: 
+                            acres_pulled = acres_pulled + district_perennial_crops.acreage_2016.values[num]
                         revenue_lost = revenue_lost_this_crop + revenue_lost
                         acres_fallowed = acres_fallowed + district_perennial_crops.acreage_2016.values[num]
             
@@ -396,8 +399,8 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                         # print('fix last crop acres fallowed here')
                         acres_fallowed = acres_fallowed + last_crop_acres_fallowed
                         acres_fallowed_perennials = acres_fallowed - acres_fallowed_annuals
-                        if deficit_irrigation_option == 0:
-                            acres_pulled = acres_fallowed_perennials
+                        if use_rdi == 0: 
+                            acres_pulled = acres_pulled + (ratio_final_fallowed_crop *  district_perennial_crops.acreage_2016.values[num])
                         # pdb.set_trace()
 
                     end_revenue_loss_calcs = 1 
@@ -418,6 +421,9 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                 # print('check curtailment_remaining == curtailment_af - water_cut_so_far ')
                 district_perennial_crops_sorted = district_perennial_crops.sort_values('cost_pulling_replanting_orchard_per_acre_year5')
                 district_perennial_crops = district_perennial_crops_sorted  # sort in order of cheapest to pull -> most expensive 
+                # pdb.set_trace()
+                district_perennial_crops = district_perennial_crops[district_perennial_crops.orchard_crop_pulled != 1 ]  # only option are the perennial crops that have not already been pulled
+                # print('use only unpulled crops here')
                 for num, crop_af_demanded in enumerate(district_perennial_crops.af_demanded_2016.tolist()):
                     
                     acre_feet_this_crop_can_giveup = 0.5 * crop_af_demanded
@@ -498,29 +504,22 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
 # pdb.set_trace()
 
 irrigation_district_list_graphed = [
-    'Westlands Water District',
-
-    'Cawelo Water District',
-
-    'Kern Delta Water District',
-    'Tulare Lake Basin Water Storage District',
-    'Delano - Earlimart Irrigation District',
     'Wheeler Ridge - Maricopa Water Storage District',
-    'Semitropic Water Service District',
-
-    'Shafter - Wasco Irrigation District',
-    'Kern - Tulare Water District',
-    'Buena Vista Water Storage District',
-
-    'Consolidated Irrigation District',
-
-    'Orange Cove Irrigation District',
-    'Panoche Water District',
-    'Pixley Irrigation District',
+    'Westlands Water District',
     'Riverdale Irrigation District',
-
+    'Tulare Lake Basin Water Storage District',
+    'Shafter - Wasco Irrigation District',
+    'Semitropic Water Service District',
+    'Pixley Irrigation District',
+    'Orange Cove Irrigation District',
     'Lindmore Irrigation District',
-    'James Irrigation District']
+    'Kern - Tulare Water District',
+    'Kern Delta Water District',
+    'James Irrigation District',
+    'Delano - Earlimart Irrigation District',
+    'Consolidated Irrigation District',
+    'Cawelo Water District',
+    'Buena Vista Water Storage District',]
 
 
 
@@ -547,7 +546,7 @@ irrigation_district_list_all = [
     # 'Corcoran Irrigation District',    # no GW estimates 
     'Fresno Irrigation District',
     'Orange Cove Irrigation District',
-    'Panoche Water District',
+    # 'Panoche Water District',
     'Pixley Irrigation District',
     'Riverdale Irrigation District',
     # 'Kings River Water District',     # no GW estimates 
@@ -607,7 +606,7 @@ for curtailment_level in curtailment_level_list:
     # Curtailment calcs for irrigation district 
     for irrigation_district in irrigation_district_list:
 
-        deficit_irrigation_option = 0  # if deficit_irrigation_option = 1 , orchard crop revenue loss is calculated by reducing irrigation 50% and eliminating crop yield for season 
+        deficit_irrigation_option = 1  # if deficit_irrigation_option = 1 , orchard crop revenue loss is calculated by reducing irrigation 50% and eliminating crop yield for season 
     
         # retrieve data to calculate AF water shortage (base year)
         if curtailment_level == 'baseline':

@@ -104,7 +104,7 @@ def plot_losses_as_percent_total_revenue(deficit_irrigation_option):
 
 
 	plt.xlabel('Percent revenue loss')
-	plt.xlim(0,120)
+	plt.xlim(0,100)
 	plt.yticks(index + bar_width, (overall_ID_table.index))
 	# pdb.set_trace()
 	plt.legend()
@@ -114,7 +114,7 @@ def plot_losses_as_percent_total_revenue(deficit_irrigation_option):
 
 
 
-deficit_irrigation_option = 0
+deficit_irrigation_option = 1
 
 
 plot_dollar_losses(deficit_irrigation_option)

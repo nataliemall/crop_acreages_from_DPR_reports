@@ -71,7 +71,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 retrieve_data = 0
 normalized = 1
-high_perennials = 1   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 2   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
@@ -122,7 +122,7 @@ if high_perennials == 1:  # mostly perennials
 if high_perennials == 2:   # shifted 
     irrigation_district_list = [
         'Wheeler Ridge - Maricopa Water Storage District',
-        'Lost Hills Water District',
+        'North Kern Water Storage District',
         'Semitropic Water Service District',
         'Shafter - Wasco Irrigation District'] 
 
