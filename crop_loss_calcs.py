@@ -276,7 +276,14 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                 # acre_feet_curtailed_this_crop = district_annual_crops.af_demanded_2016[num]
                 acre_feet_curtailed = crop_af_demanded + acre_feet_curtailed
 
-                if curtailment_remaining <= crop_af_demanded:   # if curtailment remaining is less than af demanded in current crop
+                if curtailment_remaining > crop_af_demanded:  # if current crop neeeds to be pulled completely: 
+                    if end_revenue_loss_calcs == 0:
+                        curtailment_remaining = curtailment_af - acre_feet_curtailed
+                        revenue_lost_this_crop = district_annual_crops.revenue_per_af_water.values[num] * crop_af_demanded
+                        revenue_lost = revenue_lost_this_crop + revenue_lost
+                        acres_fallowed = acres_fallowed + district_annual_crops.acreage_2016.values[num]
+
+                elif curtailment_remaining <= crop_af_demanded:   # if curtailment remaining is less than af demanded in current crop
                     if end_revenue_loss_calcs == 0:
                         # pdb.set_trace()
 
@@ -292,12 +299,6 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
 
                     end_revenue_loss_calcs = 1 
 
-                else:
-                    if end_revenue_loss_calcs == 0:
-                        curtailment_remaining = curtailment_af - acre_feet_curtailed
-                        revenue_lost_this_crop = district_annual_crops.revenue_per_af_water.values[num] * crop_af_demanded
-                        revenue_lost = revenue_lost_this_crop + revenue_lost
-                        acres_fallowed = acres_fallowed + district_annual_crops.acreage_2016.values[num]
 
 
         if (dry_year_surface_water + dry_year_gw) < perennial_crops_af_demanded:
@@ -312,7 +313,8 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
             acre_feet_curtailed = district_annual_crops.af_demanded_2016.sum()  # acre-feet already curtailed from annuals
             curtailment_remaining = curtailment_af - acre_feet_curtailed
             acres_fallowed_annuals = district_annual_crops.acreage_2016.sum()
-            acres_fallowed = acres_fallowed_annuals
+            # acres_fallowed = acres_fallowed_annuals
+            # acres_fallowed_perennials = 0 
             acres_pulled = 0 
             # pdb.set_trace()
             # print('test acres fallowed calcs here')
@@ -373,11 +375,11 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
 
                         if use_rdi == 1:
                             revenue_lost_this_crop = district_perennial_crops.revenue_per_af_water.values[num] * crop_af_demanded
+                            acres_fallowed_perennials = acres_fallowed_perennials + district_perennial_crops.acreage_2016.values[num]
                             # curtailment_remaining = curtailment_af -  acre_feet_curtailed  # acre_feet_curtailed = 50% of water supplied to crop
                         if use_rdi == 0: 
                             acres_pulled = acres_pulled + district_perennial_crops.acreage_2016.values[num]
                         revenue_lost = revenue_lost_this_crop + revenue_lost
-                        acres_fallowed = acres_fallowed + district_perennial_crops.acreage_2016.values[num]
             
                 elif curtailment_remaining <= acre_feet_this_crop_can_giveup:   # if curtailment remaining is less than af demanded in current crop
                     # pdb.set_trace()
@@ -389,19 +391,21 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                         # curtailment_remaining * district_perennial_crops.revenue_per_af_water.values[num]
                         if use_rdi == 1:
                             last_crop_revenue_loss = ratio_final_fallowed_crop * ( district_perennial_crops.revenue_per_af_water.values[num] * crop_af_demanded  )
+                            acres_fallowed_perennials = acres_fallowed_perennials + ratio_final_fallowed_crop * district_perennial_crops.acreage_2016.values[num]
 
                         total_revenue_lost = revenue_lost + last_crop_revenue_loss
                         # pdb.set_trace()
                         # print('test orange cove here')                        
 
-                        last_crop_acres_fallowed = ratio_final_fallowed_crop *  district_perennial_crops.acreage_2016.values[num]   # ratio of last crops fallowed
+                        # last_crop_acres_fallowed = ratio_final_fallowed_crop *  district_perennial_crops.acreage_2016.values[num]   # ratio of last crops fallowed
                         # pdb.set_trace()
                         # print('fix last crop acres fallowed here')
-                        acres_fallowed = acres_fallowed + last_crop_acres_fallowed
-                        acres_fallowed_perennials = acres_fallowed - acres_fallowed_annuals
+                        # acres_fallowed = acres_fallowed + last_crop_acres_fallowed
                         if use_rdi == 0: 
                             acres_pulled = acres_pulled + (ratio_final_fallowed_crop *  district_perennial_crops.acreage_2016.values[num])
                         # pdb.set_trace()
+
+                        curtailment_remaining = 0 
 
                     end_revenue_loss_calcs = 1 
 
@@ -439,6 +443,8 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
 
                         if end_revenue_loss_calcs == 0:
                             curtailment_remaining = curtailment_af - acre_feet_curtailed
+                            # pdb.set_trace()
+                            # print('check curtailment_remaining here')
 
                             # new revenue loss calculation
                             revenue_lost_this_crop = district_perennial_crops.acreage_2016.values[num]  * district_perennial_crops.cost_pulling_replanting_orchard_per_acre_year5.values[num]
@@ -453,13 +459,16 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                             # pdb.set_trace()
                             # print('test out pulled acreage calcs')
                             acres_pulled = acres_pulled + district_perennial_crops.acreage_2016.values[num]
-
+                            acres_fallowed_perennials = acres_fallowed_perennials - district_perennial_crops.acreage_2016.values[num]  # these acres are now pulled and not fallowed
+                            # pdb.set_trace()
+                            # print('follow number of perennial acres fallowed')
 
                     elif curtailment_remaining <= acre_feet_this_crop_can_giveup:   # if curtailment remaining is less than af demanded in current crop
                         # Final scenario iteration 
                         # print('curtailment remaining dipped below the water demanded for this crop')
                         if end_revenue_loss_calcs == 0:
                             # pdb.set_trace()
+                            # print('check last crop type here')
 
                             last_crop_revenue_loss_pre = ratio_final_fallowed_crop *  district_perennial_crops.acreage_2016.values[num]  * district_perennial_crops.cost_pulling_replanting_orchard_per_acre_year5.values[num]
                             last_crop_revenue_loss = last_crop_revenue_loss_pre - ratio_final_fallowed_crop * (district_perennial_crops.revenue_per_af_water.values[num] * crop_af_demanded )  # subtract lost revenue since already counted
@@ -472,7 +481,7 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                             # pdb.set_trace()
                             # print('test very end here')
 
-                            last_crop_acres_fallowed = ratio_final_fallowed_crop *  district_perennial_crops.acreage_2016.values[num]   # ratio of last crops fallowed
+                            last_crop_acres_pulled = ratio_final_fallowed_crop *  district_perennial_crops.acreage_2016.values[num]   # ratio of last crops fallowed
                             # pdb.set_trace()
                             # print('fix last crop acres fallowed here')
                             # acres_fallowed = acres_fallowed + last_crop_acres_fallowed
@@ -481,6 +490,8 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                             # pdb.set_trace()
                             # print('this is what should happen at crop 3008')
                             acres_pulled = acres_pulled + ratio_final_fallowed_crop * district_perennial_crops.acreage_2016.values[num]
+                            acres_fallowed_perennials = acres_fallowed_perennials - ratio_final_fallowed_crop * district_perennial_crops.acreage_2016.values[num]  # these acres are now pulled and not fallowed
+
                         # pdb.set_trace()
                         end_revenue_loss_calcs = 1 
 
@@ -491,10 +502,10 @@ def calculate_water_curtailment(irrigation_district, curtailment_level, deficit_
                 print('something is still wrong bacause fallowing all land should mean zero water demand ')
 
 
-    total_acres_fallowed = acres_fallowed
+    # total_acres_fallowed = acres_fallowed
 
     # pdb.set_trace()
-    return total_revenue_lost, curtailment_af, total_acres_fallowed, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled, baseline_acreage
+    return total_revenue_lost, curtailment_af, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled, baseline_acreage
 
     # pdb.set_trace()
 
@@ -563,11 +574,11 @@ irrigation_district_list_all = [
 
 
 # # individual irrigation test ##
-# deficit_irrigation_option = 0
-# irrigation_district = 'Consolidated Irrigation District'
+# deficit_irrigation_option = 1
+# irrigation_district = 'Orange Cove Irrigation District'
 # curtailment_level = 'gw_reduction_50_percent'
 # # curtailment_level = 'baseline'
-# total_revenue_lost, curtailment_af, total_acres_fallowed, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled_rdi = calculate_water_curtailment(irrigation_district, curtailment_level, deficit_irrigation_option)
+# total_revenue_lost, curtailment_af, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled, baseline_acreage = calculate_water_curtailment(irrigation_district, curtailment_level, deficit_irrigation_option)
 # pdb.set_trace()
 # print('Stop here- individual calculations complete')
 
@@ -612,14 +623,14 @@ for curtailment_level in curtailment_level_list:
         if curtailment_level == 'baseline':
             deficit_irrigation_option = 1 
 
-        total_revenue_lost, curtailment_af, total_acres_fallowed, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled, baseline_acreage = calculate_water_curtailment(irrigation_district, curtailment_level, deficit_irrigation_option)
+        total_revenue_lost, curtailment_af, acres_fallowed_annuals, acres_fallowed_perennials, acres_pulled, baseline_acreage = calculate_water_curtailment(irrigation_district, curtailment_level, deficit_irrigation_option)
 
         if curtailment_level == 'baseline':
             overall_ID_table.curtailment_af_baseline[irrigation_district] = curtailment_af
             overall_ID_table.total_revenue_lost_baseline[irrigation_district] = total_revenue_lost
             overall_ID_table.annual_acres_fallowed_baseline[irrigation_district] = acres_fallowed_annuals
             overall_ID_table.perennial_acres_fallowed_baseline[irrigation_district] = acres_fallowed_perennials
-            overall_ID_table.total_acres_fallowed_baseline[irrigation_district] = total_acres_fallowed
+            # overall_ID_table.total_acres_fallowed_baseline[irrigation_district] = total_acres_fallowed
             overall_ID_table.total_orchards_pulled_baseline[irrigation_district] = acres_pulled
             overall_ID_table.baseline_acreage[irrigation_district] = baseline_acreage
         if curtailment_level == 'gw_reduction_25_percent':
@@ -627,21 +638,21 @@ for curtailment_level in curtailment_level_list:
             overall_ID_table.total_revenue_lost_25[irrigation_district] = total_revenue_lost
             overall_ID_table.annual_acres_fallowed_25[irrigation_district] = acres_fallowed_annuals
             overall_ID_table.perennial_acres_fallowed_25[irrigation_district] = acres_fallowed_perennials
-            overall_ID_table.total_acres_fallowed_25[irrigation_district] = total_acres_fallowed
+            # overall_ID_table.total_acres_fallowed_25[irrigation_district] = total_acres_fallowed
             overall_ID_table.total_orchards_pulled_25[irrigation_district] = acres_pulled
         if curtailment_level == 'gw_reduction_50_percent':
             overall_ID_table.curtailment_af_50[irrigation_district] = curtailment_af
             overall_ID_table.total_revenue_lost_50[irrigation_district] = total_revenue_lost
             overall_ID_table.annual_acres_fallowed_50[irrigation_district] = acres_fallowed_annuals
             overall_ID_table.perennial_acres_fallowed_50[irrigation_district] = acres_fallowed_perennials
-            overall_ID_table.total_acres_fallowed_50[irrigation_district] = total_acres_fallowed
+            # overall_ID_table.total_acres_fallowed_50[irrigation_district] = total_acres_fallowed
             overall_ID_table.total_orchards_pulled_50[irrigation_district] = acres_pulled
         if curtailment_level == 'gw_reduction_75_percent':
             overall_ID_table.curtailment_af_75[irrigation_district] = curtailment_af
             overall_ID_table.total_revenue_lost_75[irrigation_district] = total_revenue_lost
             overall_ID_table.annual_acres_fallowed_75[irrigation_district] = acres_fallowed_annuals
             overall_ID_table.perennial_acres_fallowed_75[irrigation_district] = acres_fallowed_perennials
-            overall_ID_table.total_acres_fallowed_75[irrigation_district] = total_acres_fallowed
+            # overall_ID_table.total_acres_fallowed_75[irrigation_district] = total_acres_fallowed
             overall_ID_table.total_orchards_pulled_75[irrigation_district] = acres_pulled
 
 

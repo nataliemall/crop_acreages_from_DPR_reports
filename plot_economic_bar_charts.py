@@ -55,7 +55,7 @@ def plot_dollar_losses(deficit_irrigation_option):
 	plt.xlabel('Revenue loss, millions of dollars')
 
 	if deficit_irrigation_option == 1:
-		plt.title('Revenue Loss for Irrigation Districts Assuming Regulated Deficiency Irrigation')
+		plt.title('Revenue Loss for Irrigation Districts Utilizing Regulated Deficiency Irrigation')
 	else:
 		plt.title('Economic Analysis of Revenue Loss for Irrigation Districts')
 	plt.yticks(index + bar_width, (overall_ID_table.index))
@@ -81,6 +81,9 @@ def plot_losses_as_percent_total_revenue(deficit_irrigation_option):
 	percent_rev_loss_at_25 = rev_loss_25_gw_reduction / overall_ID_table.baseline_revenue * 100
 	percent_rev_loss_at_50 = rev_loss_50_gw_reduction / overall_ID_table.baseline_revenue * 100
 	percent_rev_loss_at_75 = rev_loss_75_gw_reduction / overall_ID_table.baseline_revenue * 100
+
+	pdb.set_trace()
+	print('check out rev loss values here')
 
 	fig, ax = plt.subplots()
 	index = np.arange(n_groups)

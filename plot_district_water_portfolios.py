@@ -146,7 +146,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
         # ax[row, column].legend(loc = 0)  # places legend in best location 
         if (high_perennials == 0) or (high_perennials == 1) :
             ax[row, column].legend(loc = "lower left")
-            pdb.set_trace()
+            # pdb.set_trace()
         else:
             ax[row, column].legend(loc = "lower right")
 
@@ -155,7 +155,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 retrieve_data = 0
 normalized = 1
-high_perennials = 1  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 5  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
@@ -213,7 +213,7 @@ if high_perennials == 2:   # shifted
 if high_perennials == 3:    # extra
     irrigation_district_list = [
         'James Irrigation District',
-        'Firebaugh Canal Company',
+        'Lost Hills Water District',
         'Lindmore Irrigation District',
         'Arvin - Edison Water Storage District'] 
 
@@ -236,15 +236,15 @@ if high_perennials == 6:    # even more extra
     irrigation_district_list = [
         'Kern - Tulare Water District',       
         'Corcoran Irrigation District',
-        'Dudley Ridge Water District',
-        'Kings River Water District',]
+        'Dudley Ridge Water District']
+        # 'Kings River Water District',]
 
 if high_perennials == 7:    # even more extra
     irrigation_district_list = [
         'Alta Irrigation District',      
         'Lower Tule River Irrigation District',
-        'Dudley Ridge Water District',
-        'Kings River Water District',]
+        'Dudley Ridge Water District']
+        # 'Kings River Water District',]
 
 if retrieve_data == 1: 
     for irrigation_district in irrigation_district_list: 
@@ -287,6 +287,53 @@ if high_perennials == 2:
 plt.show()
 
 # pdb.set_trace()
+
+
+# Irrigation districts dependent on GW supplies for perrenials during dry years 
+    # Orange Cove Irrigation District 
+    # Lindmore Irrigation District 
+    # Wheeler Ridge - Maricopa Water Storage District 
+    # James Irrigation District 
+    # Buena Vista Water Storage District
+    # Riverdale Irrigation District
+    # Pixley Irrigation District
+    # Consolidated Irrigation District 
+    # Delano Earlimart 
+
+
+# For perennial crops during wet and dry years
+    # Westlands irrigation 
+    # Semitropic Water Service District
+    # North Kern Water Storage District
+    # Shafter - Wasco Irrigation District
+
+
+# GW needed for annual crops 
+    #  Tulare Lake Basin Water Storage District
+    # Kern Delta Water Storage District 
+    # Cawelo Water District 
+    # Fresno Irrigation District 
+
+
+
+
+
+
+# insufficient data 
+    # Arvin Edison Water Storage District 
+    # Kings River Irrigation District
+    # Dudly Ridge Water District 
+    # Corcoran Irridagation District 
+    # Kern Tulare Water District 
+    # Alta Irrigation District 
+    # Lower Tule River Irrigation District 
+    # Lost Hills Water District 
+    # Berenda Mesa
+
+
+
+
+
 
 
 
