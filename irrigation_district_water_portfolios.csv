@@ -1,27 +1,27 @@
 irrigation district,irrigation_district_acronym,sample_wet_year,wet_year_surface_water,wet_year_gw,sample_dry_year,dry_year_surface_water,dry_year_gw,irrigated_acreage
-Tulare Irrigation District,TID,,,,2010,270696,144000,58946
-Cawelo Water District,CWD,2011,95554,,2013,59741,65905,33630
-Lost Hills Water District,LHWD,,,,,,,
-Lower Tule River Irrigation District,LTRID,,,,,,,
+Tulare Irrigation District,TID,no data,,,2010,270696,144000,58946
+Cawelo Water District,CWD,2011*,95554,,2013,59741,65905,33630
+Lost Hills Water District,LHWD,no data,,,,,,
+Lower Tule River Irrigation District,LTRID,no data,,,,,,
 Westlands Water District,WWD,2011,940114,69000,2009,343282,480000,570000
 Kern Delta Water District,KDWD,2011,340935,93910,2013,123924,163659,92000
 Tulare Lake Basin Water Storage District,TLBWSD,2011,330200,18000,2013,111000,196000,170000
-Delano - Earlimart Irrigation District,DEID,,,,2015,19863,125132,49015
+Delano - Earlimart Irrigation District,DEID,no data,,,2015,19863,125132,49015
 Wheeler Ridge - Maricopa Water Storage District,WRMWSD,2011,161805,31140,2013,114361,65581,87422
 Semitropic Water Service District,SWSD,2011,234655,165802,2013,49177,341420,135997
 Arvin - Edison Water Storage District,AEWSD,2011,235111,183802,2009,133832,,112617
 Shafter - Wasco Irrigation District,SWID,2011,75440,23250,2013,23953,80080,30903
 North Kern Water Storage District,NKSD,2008,93321,93133,2013,20314,224430,52396
-Kern - Tulare Water District,KTWD,,,,2013,38334,16631,17406
+Kern - Tulare Water District,KTWD,no data,,,2013,38334,16631,17406
 Buena Vista Water Storage District,BVWSD,2011,160593,36135,2013,42557,66047,32437
-Alta Irrigation District,AID,,,,,,,
+Alta Irrigation District,AID,no data,,,,,,
 Berrenda Mesa Water District,BMWD,2011,92500,,2012,85338,,27200
-Consolidated Irrigation District,CID,,,,2013,22414,328185,199259
+Consolidated Irrigation District,CID,no data,,,2013,22414,328185,199259
 Corcoran Irrigation District,Corcoran ID,2011,66216,,2013,26523,,37876
-Dudley Ridge Water District,DRWD,,,,2013,39589,0,23010
-Fresno Irrigation District,FID,2011,473156,,2013,322183,186913,133591
+Dudley Ridge Water District,DRWD,no data,,,2013,39589,0,23010
+Fresno Irrigation District,FID,2011*,473156,,2013,322183,186913,133591
 James Irrigation District,JID,2011,74138,,2014,6488,65509,23874
-Lindmore Irrigation District,LID,2011,39975,,2009,31578,67408,23740
-Orange Cove Irrigation District,OCID,,,,2015,9463,51155,25796
-Pixley Irrigation District,PID,,,,2010,31296,169901,59283
-Riverdale Irrigation District,RID,,,,2012,8610,31335,13173
+Lindmore Irrigation District,LID,2011*,39975,,2009,31578,67408,23740
+Orange Cove Irrigation District,OCID,no data,,,2015,9463,51155,25796
+Pixley Irrigation District,PID,no data,,,2010,31296,169901,59283
+Riverdale Irrigation District,RID,no data,,,2012,8610,31335,13173

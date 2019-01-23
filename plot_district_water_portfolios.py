@@ -91,7 +91,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
     except:
         wet_year_label = str(water_portfolios.sample_wet_year[irrigation_district])
 
-    if abs(wet_year_label) < 0:
+    if wet_year_label == 'no data':
         wet_year_label = 'no data'
     x_labels = [str('wet year ('+ str(wet_year_label) + ')' ),   str( 'dry year (' + str(dry_year_label) + ')' )]
     if wet_year_label == 2008:
@@ -105,12 +105,12 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
     # pdb.set_trace()
 
     ax[row, column].bar(x_pos, gw_levels ,  width = 0.5, label = 'Estimated groundwater use', color = '#74c476', bottom = surface_levels)
-    ax[row, column].bar(x_pos, surface_levels, width = 0.5, label = 'Surface water use', color='#1d91c0')
+    ax[row, column].bar(x_pos, surface_levels, width = 0.5, label = 'Surface water use', color='#1d91c0', hatch = '//')
     # plt.legend(loc = "upper right")
 
     ax[row, column].set_xticks(x_pos, minor = False)
     ax[row, column].set_xticklabels(x_labels) 
-    ax[row, column].set_title(str(irrigation_district), fontsize = 14 )
+    ax[row, column].set_title(str(irrigation_district), fontsize = 12 )
     # ax[row, column].ylabel('Annual water volume [acre-feet]')
     # plt.show()
     # plt.savefig(str('water_portfolio_figures/' + str(irrigation_district) + ' bar graph'), dpi = 300)
@@ -142,20 +142,20 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
     # ax[row, column].plot(x_vals_cc, y_vals_annual_cc, color = 'y', linestyle = '-.', label = 'County Commissioner annual crop acreage')    
 
     # ax[row, column].plot()
-    if num == 1:
-        # ax[row, column].legend(loc = 0)  # places legend in best location 
-        if (high_perennials == 0) or (high_perennials == 1) :
-            ax[row, column].legend(loc = "lower left")
-            # pdb.set_trace()
-        else:
-            ax[row, column].legend(loc = "lower right")
+    # if num == 1:
+    #     # ax[row, column].legend(loc = 0)  # places legend in best location 
+    #     if (high_perennials == 0) or (high_perennials == 1) :
+    #         ax[row, column].legend(loc = "lower left")
+    #         # pdb.set_trace()
+    #     else:
+    #         ax[row, column].legend(loc = "lower right")
 
 
 
 
 retrieve_data = 0
 normalized = 1
-high_perennials = 5  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 2  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
@@ -329,7 +329,6 @@ plt.show()
     # Lower Tule River Irrigation District 
     # Lost Hills Water District 
     # Berenda Mesa
-
 
 
 

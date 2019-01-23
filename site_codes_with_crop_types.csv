@@ -17,14 +17,14 @@
 1336,"bean, lima",,1,,DryBean,155,N-GRNHS TRANSPLANTS,,,,,,,,,Cucurb,1.737817402,2.41,0,2.31,1.86,1.41,2.08,1.79,2.18,2.41,2.22,0,1.88,0.868908701
 1337,bean sprouts,,1,,Oth Trk ,156,N-OUTDR TRANSPLANTS,,,,,,,,,On Gar,2.728661174,3.46,0,3.42,2.58,2.29,2.97,2.46,2.96,3.24,3.53,0,2.68,1.364330587
 1111,beet,,1,,SgrBeet,1000,SMALL FRUITS/BERRY,,,,,,,,,Potato,1.724831242,2.28,0,2.24,1.4,1.33,2.1,1.71,2.29,2.36,2.21,0,1.75,0.862415621
-2502,"berry, other",1,,,SgrBeet,1002,BLACKBERRY,,6803.221477,16954.63,1,,,Oth Trk ,,Oth Trk ,1.255516009,1.63,0,1.52,1.29,0.89,1.42,1.32,1.5,1.64,1.74,0,1.47,0.627758005
-3102,birdsfoot/trefoil,,,,,1003,BOYSENBERRY,,6803.221477,16954.63,1,,,Oth Trk ,,Al Pist,4.042999016,4.57,0,4.18,3.79,3.59,4.25,3.99,4.29,3.83,4.09,4.15,3.03,2.021499508
-2504,blueberry,1,,,SgrBeet,1004,DEWBERRY,,6803.221477,16954.63,1,,,Oth Trk ,,Oth Dec,3.781745562,4.46,0,4.18,3.54,3.4,4.16,3.8,4.09,3.91,3.71,3.91,2.7,1.890872781
-2505,boysenberry,1,,,SgrBeet,1005,LOGANBERRY,,6803.221477,16954.63,1,,,Oth Trk ,,Subtrop,3.147028327,3.72,0,3.48,2.8,2.71,3.45,3.09,3.37,3.33,3.02,3.06,1.97,1.573514164
-2506,bushberry,1,,,SgrBeet,1006,RASPBERRY,,6803.221477,16954.63,1,,,Oth Trk ,,Vine,2.614801406,3.06,0,2.95,2.55,2.37,2.86,2.6,2.85,2.6,2.31,2.67,1.59,1.307400703
+2502,"berry, other",1,,,SgrBeet,1002,BLACKBERRY,,34725.55,45056.51,1,,,Oth Trk ,,Oth Trk ,1.255516009,1.63,0,1.52,1.29,0.89,1.42,1.32,1.5,1.64,1.74,0,1.47,0.627758005
+3102,birdsfoot/trefoil,,,,,1003,BOYSENBERRY,,34725.55,45056.51,1,,,Oth Trk ,,Al Pist,4.042999016,4.57,0,4.18,3.79,3.59,4.25,3.99,4.29,3.83,4.09,4.15,3.03,2.021499508
+2504,blueberry,1,,,SgrBeet,1004,DEWBERRY,,34725.55,45056.51,1,,,Oth Trk ,,Oth Dec,3.781745562,4.46,0,4.18,3.54,3.4,4.16,3.8,4.09,3.91,3.71,3.91,2.7,1.890872781
+2505,boysenberry,1,,,SgrBeet,1005,LOGANBERRY,,34725.55,45056.51,1,,,Oth Trk ,,Subtrop,3.147028327,3.72,0,3.48,2.8,2.71,3.45,3.09,3.37,3.33,3.02,3.06,1.97,1.573514164
+2506,bushberry,1,,,SgrBeet,1006,RASPBERRY,,34725.55,45056.51,1,,,Oth Trk ,,Vine,2.614801406,3.06,0,2.95,2.55,2.37,2.86,2.6,2.85,2.6,2.31,2.67,1.59,1.307400703
 1221,broccoli,,1,,Oth Trk ,1009,BLUEBERRY,BERRIES BLUEBERRIES,34725.55,45056.51,1,,,Oth Trk ,,,,,,,,,,,,,,,,
-1222,Brussels sprouts,,1,,Oth Trk ,1010,CRANBERRY,,6803.221477,16954.63,1,,,Oth Trk ,,,,,,,,,,,,,,,,
-8000,building,,,,,1013,GOOSEBERRY,,6803.221477,16954.63,1,,,Oth Trk ,,,,,,,,,,,,,,,,
+1222,Brussels sprouts,,1,,Oth Trk ,1010,CRANBERRY,,34725.55,45056.51,1,,,Oth Trk ,,,,,,,,,,,,,,,,
+8000,building,,,,,1013,GOOSEBERRY,,34725.55,45056.51,1,,,Oth Trk ,,,,,,,,,,,,,,,,
 7600,bulbs,,1,,On Gar,1016,STRAWBERRY,,,,,1,,Oth Trk ,,,,,,,,,,,,,,,,
 1223,cabbage,,1,,Oth Trk ,1023,BUSHBERRY,,,,1,,,Oth Trk ,,,,,,,,,,,,,,,,
 1253,cactus leaf,1,,,Subtrop,2000,CITRUS,ORANGES NAVEL,6803.221477,16954.63,1,,,Subtrop,,,,,,,,,,,,,,,,
@@ -35,11 +35,11 @@
 6101,cattle,,,,,2006,ORANGE,ORANGES NAVEL,6803.221477,16954.63,1,,,Subtrop,,,,,,,,,,,,,,,,
 1224,cauliflower,,1,,Oth Trk ,2007,TANGELO,TANGERINES & MANDARINS,13560.51,41630.8,1,,,Subtrop,,,,,,,,,,,,,,,,
 1235,celeriac,,1,,Oth Trk ,2008,TANGERINE,TANGERINES & MANDARINS,13560.51,41630.8,1,,,Subtrop,,,,,,,,,,,,,,,,
-1233,celery,,1,,Oth Trk ,3000,NUTS,,6803.221477,16954.63,1,,,Oth Dec,,,,,,,,,,,,,,,,
+1233,celery,,1,,Oth Trk ,3000,NUTS,,8951.57,29748.28,1,,,Oth Dec,,,,,,,,,,,,,,,,
 1217,"chard, Venetian",,1,,Oth Trk ,3001,ALMOND,ALMONDS ALL,8951.57,29748.28,1,,,Al Pist,,,,,,,,,,,,,,,,
-1346,cherimoya,1,,,Subtrop,3003,CASHEW,,6803.221477,16954.63,1,,,Oth Dec,,,,,,,,,,,,,,,,
-1255,chayote,,1,,Cucurb,3004,CHESTNUT,,6803.221477,16954.63,1,,,Oth Dec,,,,,,,,,,,,,,,,
-2302,cherry,1,,,Oth Dec,3008,PECAN,PECANS,6803.221477,16954.63,1,,,Oth Dec,,,,,,,,,,,,,,,,
+1346,cherimoya,1,,,Subtrop,3003,CASHEW,,8951.57,29748.28,1,,,Oth Dec,,,,,,,,,,,,,,,,
+1255,chayote,,1,,Cucurb,3004,CHESTNUT,,8951.57,29748.28,1,,,Oth Dec,,,,,,,,,,,,,,,,
+2302,cherry,1,,,Oth Dec,3008,PECAN,PECANS,8951.57,29748.28,1,,,Oth Dec,,,,,,,,,,,,,,,,
 4102,chestnut,1,,,Oth Dec,3009,WALNUT,WALNUTS ENGLISH,9059.19,30261.63,1,,,Oth Dec,,,,,,,,,,,,,,,,
 6201,chicken,,,,,3011,PISTACHIO,PISTACHIOS,10577.2,33138.13,1,,,Al Pist,,,,,,,,,,,,,,,,
 5205,chicory,,1,,Oth Trk ,4000,POME FRUIT,,15606.93,29187.89,1,,,Oth Dec,,,,,,,,,,,,,,,,
@@ -47,7 +47,7 @@
 1211,chive,,1,,Oth Trk ,4003,PEAR,PEARS UNSPECIFIED,5159.96,11780.83,1,,,Oth Dec,,,,,,,,,,,,,,,,
 1252,chop suey,,,,Oth Trk ,4004,QUINCE,QUINCE,6803.221477,16954.63,1,,,Oth Dec,,,,,,,,,,,,,,,,
 1256,cilantro,,1,,Oth Trk ,5000,STONE FRUIT,PEACHES CLINGSTONE,4973.99,13421.51,1,,,Oth Dec,,,,,,,,,,,,,,,,
-2100,citrus,1,,,Subtrop,5001,APRICOT,APRICOTS ALL,6803.221477,16954.63,1,,,Oth Dec,,,,,,,,,,,,,,,,
+2100,citrus,1,,,Subtrop,5001,APRICOT,APRICOTS ALL,7925.94,17397.22,1,,,Oth Dec,,,,,,,,,,,,,,,,
 2105,"citrus, other",1,,,Subtrop,5002,CHERRY,CHERRIES SWEET,12343.11,35314.83,1,,,Oth Dec,,,,,,,,,,,,,,,,
 6,city agency,,,,,5003,NECTARINE,NECTARINES,7925.94,17397.22,1,,,Oth Dec,,,,,,,,,,,,,,,,
 991,city agency,,,,,5004,PEACH,PEACHES FREESTONE,7925.94,17397.22,1,,,Oth Dec,,,,,,,,,,,,,,,,
@@ -55,8 +55,8 @@
 2412,coconut,1,,,Subtrop,5006,PRUNE,PLUMS DRIED,6459.48,15783.25,1,,,Oth Dec,,,,,,,,,,,,,,,,
 1257,colabraise,,1,,Oth Trk ,6000,TROPICAL/SUBTROPICAL FRUIT,,6803.221477,16954.63,1,,,Subtrop,,,,,,,,,,,,,,,,
 1220,cole crop,,1,,Oth Trk ,6002,BANANA,,6803.221477,16954.63,1,,,Subtrop,,,,,,,,,,,,,,,,
-1236,cole slaw,,1,,Oth Trk ,6004,DATE,,6803.221477,16954.63,1,,,Subtrop,,,,,,,,,,,,,,,,
-1225,collard,,1,,Oth Trk ,6005,FIG,,6803.221477,16954.63,1,,,Oth Dec,,,,,,,,,,,,,,,,
+1236,cole slaw,,1,,Oth Trk ,6004,DATE,,6459.48,15783.25,1,,,Subtrop,,,,,,,,,,,,,,,,
+1225,collard,,1,,Oth Trk ,6005,FIG,,6459.48,15783.25,1,,,Oth Dec,,,,,,,,,,,,,,,,
 7301,conifer,1,,,Oth Trk ,6007,MANGO,,6803.221477,16954.63,1,,,Subtrop,,,,,,,,,,,,,,,,
 3302,corn,,1,,Corn,6010,PAPAYA,,6803.221477,16954.63,1,,,Subtrop,,,,,,,,,,,,,,,,
 3201,cotton,,1,,Cotton,6012,PERSIMMON,PERSIMMONS,6803.221477,16954.63,1,,,Oth Dec,,,,,,,,,,,,,,,,

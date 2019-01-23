@@ -63,7 +63,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 retrieve_data = 0
 normalized = 1
-high_perennials = 2  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 7  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
@@ -149,7 +149,7 @@ if high_perennials == 7:    # even more extra
     irrigation_district_list = [
         'Alta Irrigation District',      
         'Lower Tule River Irrigation District',
-        'Dudley Ridge Water District',
+        'Lost Hills Water District',
         'Kings River Water District',]
 
 if retrieve_data == 1: 

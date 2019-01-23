@@ -12,19 +12,28 @@ from tqdm import tqdm  # for something in tqdm(something something):
 from pur_and_county_data_retrieval import retrieve_data_for_irrigation_district
 
 
-def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, ax  ): 
+def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, ax , high_perennials ): 
     year_list_array = np.arange(1990, 2017)
     linestyles = ['-', '--', '-.', ':']
     # pdb.set_trace()
-    row = 1
-    column = 1 
-    if (num == 0) | (num == 1) :
-        row = 0 
-    if (num  == 0) | (num == 2):
-        column = 0 
 
-    irrigation_district_title = irrigation_district.replace("_", " ")
-    ax[row, column].set_title(irrigation_district_title)
+    if high_perennials == 'poster_districts':
+        row = 0
+        column = 0 
+        if num == 1:
+            # pdb.set_trace()
+            column = 1 
+        if num == 2:
+            column = 2
+
+    else:
+        row = 1
+        column = 1 
+        if (num == 0) | (num == 1) :
+            row = 0 
+        if (num  == 0) | (num == 2):
+            column = 0 
+
 
     # pdb.set_trace()
     add_droughts = 0
@@ -45,25 +54,54 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
     # # pdb.set_trace()
 
     # ax[row, column].plot(x_vals, annual_crop_y_vals, color = 'y', label = 'calPUR annual crop acreage')
+    irrigation_district_title = irrigation_district.replace("_", " ")
 
-    # add minimum water demand Data:
-    x_vals_min = sum_crop_types.year.values
-    y_vals_min = sum_crop_types.deficit_irrigation_water_demand_for_year.values / 1000 # convert to TAF
-    y_vals_perennial = sum_crop_types.perennial_irrigation_water_demand_for_year.values / 1000 
-    y_vals_estimated = sum_crop_types.water_demand_with_2010_AW_values.values / 1000 # convert to TAF
-    ax[row, column].plot(x_vals_min, y_vals_estimated, color = '#9ecae1', label = 'Irrigation water demand')    
-    ax[row, column].plot(x_vals_min, y_vals_perennial, color = '#4292c6', label = 'Irrigation water demand - perennials only')
-    ax[row, column].plot(x_vals_min, y_vals_min, color = '#084594', label = 'Deficit irrigation water required for perennial crop survival')
-    ax[row, column].set_ylim(0)
-    ax[row, column].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+    if high_perennials == 'poster_districts':
+        ax[column].set_title(irrigation_district_title)
+
+        # add minimum water demand Data:
+        x_vals_min = sum_crop_types.year.values
+        y_vals_min = sum_crop_types.deficit_irrigation_water_demand_for_year.values / 1000 # convert to TAF
+        y_vals_perennial = sum_crop_types.perennial_irrigation_water_demand_for_year.values / 1000 
+        y_vals_estimated = sum_crop_types.water_demand_with_2010_AW_values.values / 1000 # convert to TAF
+        # pdb.set_trace()
+        ax[column].plot(x_vals_min, y_vals_estimated, color = '#9ecae1', label = 'Irrigation water demand')    
+        ax[column].plot(x_vals_min, y_vals_perennial, color = '#4292c6', label = 'Irrigation water demand - perennials only')
+        ax[column].plot(x_vals_min, y_vals_min, color = '#084594', label = 'Deficit irrigation water required for perennial crop survival')
+        ax[column].set_ylim(0)
+        # pdb.set_trace()
+        ax[column].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+    else:
+        # add minimum water demand Data:
+
+        ax[row, column].set_title(irrigation_district_title)
+        x_vals_min = sum_crop_types.year.values
+        y_vals_min = sum_crop_types.deficit_irrigation_water_demand_for_year.values / 1000 # convert to TAF
+        y_vals_perennial = sum_crop_types.perennial_irrigation_water_demand_for_year.values / 1000 
+        y_vals_estimated = sum_crop_types.water_demand_with_2010_AW_values.values / 1000 # convert to TAF
+        ax[row, column].plot(x_vals_min, y_vals_estimated, color = '#9ecae1', label = 'Irrigation water demand from annual crops')    
+        ax[row, column].plot(x_vals_min, y_vals_perennial, color = '#4292c6', label = 'Irrigation water demand from perennials crops')
+        ax[row, column].plot(x_vals_min, y_vals_min, color = '#084594', label = 'Deficit irrigation water required \n for perennial crop survival')
+        ax[row, column].set_ylim(0)
+        ax[row, column].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+        ax[row, column].fill_between(x_vals_min, 0, y_vals_estimated, facecolor='#9ecae1')
+        ax[row, column].fill_between(x_vals_min, 0, y_vals_perennial, facecolor='#4292c6')
+        ax[row, column].set_xlim(1974, 2016)
+        # ax[row, column].fill_between(x_vals_min, 0, y_vals_min, facecolor='#084594')
     # ax[row, column].plot()
 
-    if high_perennials == 2:
-        if num == 2:
-            ax[row, column].legend(loc = 0)  # places legend in best location of lower left subplot
-    else:
-        if num == 1:
-            ax[row, column].legend(loc = 0)  # places legend in best location 
+    # if high_perennials == 2:
+    #     if num == 2:
+    #         ax[row, column].legend(loc = 0)  # places legend in best location of lower left subplot
+    # elif high_perennials == 'poster_districts':
+    #     if num == 2:
+    #         pdb.set_trace()
+    #         ax[column].legend(loc = 0)
+    #         print('test legend placement here')
+    # elif num == 1:
+    #     pdb.set_trace()
+    #     print('test')
+    #     # ax[row, column].legend(loc = 0)  # places legend in best location 
 
 
 
@@ -71,7 +109,8 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 retrieve_data = 0
 normalized = 1
-high_perennials = 2   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 0   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+# high_perennials = 'poster_districts'
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
@@ -162,6 +201,12 @@ if high_perennials == 7:    # even more extra
         'Dudley Ridge Water District',
         'Kings River Water District',]
 
+if high_perennials == 'poster_districts':
+    irrigation_district_list = [
+        'Westlands Water District',
+        'Semitropic Water Service District',
+        'Cawelo Water District']
+
 
 if retrieve_data == 1: 
     for irrigation_district in irrigation_district_list: 
@@ -170,7 +215,11 @@ if retrieve_data == 1:
 
         sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district, totals_in_irrig_dist = retrieve_data_for_irrigation_district(irrigation_district, normalized)
 
-fig, ax = plt.subplots(2,2, sharex = True)
+
+if high_perennials == 'poster_districts':
+    fig, ax = plt.subplots(1,3, sharex = True)
+else:
+    fig, ax = plt.subplots(2,2, sharex = True)  
 if high_perennials == 1:
     plt.suptitle('Water Demand for Irrigation Districts with Primarily Perennial Crops', fontsize=14)
 if high_perennials == 0: 
@@ -179,7 +228,12 @@ if high_perennials == 2:
     plt.suptitle('Water Demand for Irrigation Districts with Shift to Perennial Crops', fontsize=14)
 
 fig.text(0.5, 0.04, 'Year', ha='center', fontsize = 14)
-fig.text(0.04, 0.5, 'Agriculatural water demand within irrigation district (TAF)', va='center', rotation='vertical', fontsize = 14)
+
+if high_perennials == 'poster_districts':
+    fig.text(0.04, 0.5, 'Agriculatural water demand \n within irrigation district (TAF)', va='center', rotation='vertical', fontsize = 14)
+else:
+    fig.text(0.04, 0.5, 'Agriculatural water demand within irrigation district (TAF)', va='center', rotation='vertical', fontsize = 14)
+
 
 # pdb.set_trace()
 sum_crop_types_each_county = {}
@@ -187,7 +241,7 @@ sum_crop_types_each_county = {}
 for num, irrigation_district in enumerate(irrigation_district_list): 
     sum_crop_types_each_county[irrigation_district] = pd.read_csv(os.path.join(irrigation_district, str('calPUR_data_normalized' + str(irrigation_district) + '.csv')))
     # pdb.set_trace()
-    subplots_dataset_comparison(irrigation_district, sum_crop_types_each_county[irrigation_district], num , fig, ax  )
+    subplots_dataset_comparison(irrigation_district, sum_crop_types_each_county[irrigation_district], num , fig, ax, high_perennials  )
 
 
 if not os.path.isdir('figure_drafts'):

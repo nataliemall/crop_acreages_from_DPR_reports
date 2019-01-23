@@ -117,7 +117,7 @@ def plot_losses_as_percent_total_revenue(deficit_irrigation_option):
 
 
 
-deficit_irrigation_option = 1
+deficit_irrigation_option = 0
 
 
 plot_dollar_losses(deficit_irrigation_option)
