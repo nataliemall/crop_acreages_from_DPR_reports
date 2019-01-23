@@ -13,14 +13,17 @@ Part 3: Clean the data -  Cleans up bad data and compiles data columns to create
 ```clean_calPIP_data.py ```
 
 Part 4: Compile and normalize the data by 1-mile section
+
 ``` compile_normalize_data_by_comtrs.py```
 
 Part 5: Create graphs comparing County Commissioner data with calPUR dataset
+
 ```calPUR_county_comparison.py```
 
-Part 5, option a: Create several graphs for a chosen irrigation district or county within Tulare Lake Basin
-1. Run acreage_calc_plots_single_irrigation_district.py 
+Part 6, option a: Create several graphs for a chosen irrigation district or county within Tulare Lake Basin
 
-Part 5, option b: Create a specific graph for all irrigation districts within the Tulare Lake Basin
+``` acreage_calc_plots_single_irrigation_district.py ```
+
+Part 6, option b: Create a specific graph for all irrigation districts within the Tulare Lake Basin
 
 
