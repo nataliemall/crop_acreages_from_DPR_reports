@@ -10,10 +10,7 @@ Part 2: Download .py files from crop_acreages_CA_DPR_reports and place in same f
 
 Part 3: Clean the data -  Cleans up bad data and compiles data columns to create a comtrs value for each permit
 
-```
-clean_calPIP_data.py
-
-```
+```clean_calPIP_data.py ```
 
 Part 3: Compile and normalize the data by 1-mile section
 1. Run the compile_normalize_data_by_comtrs.py script
