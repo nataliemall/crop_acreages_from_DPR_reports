@@ -1,3 +1,37 @@
+## Special user-friendly version for the wonderful lab group 
+
+### We'll skip the messy part of processing the raw data, and instead download the handy compressed file of nice clean data (originally from the Pesticide Information Portal). 
+
+Step 1: Download and unzip the file into the folder dedicated to all things dedicated to the February 13th Code Review 
+
+```pur_data_with_comtrs.zip```
+
+ This was sent to you via email since it's a large file. 
+
+ Step 2: Download the rest of the moving parts: 
+
+```adding_comtrs_functions.py```
+```fix_pur_data_step1.py```
+```clean_calPIP_data.py```
+```compile_normalize_data_by_comtrs.py```
+```calPUR_county_comparison.py```
+```pur_and_county_data_retrieval.py```
+```plotting_functions.py```
+```acreage_calc_plots_single_irrigation_district.py```
+
+Step 3: Run the part of the code this is all about. 
+
+``` compile_normalize_data_by_comtrs.py```
+
+Step 4: Graph it!
+
+``` acreage_calc_plots_single_irrigation_district.py ```
+
+
+
+
+
+
 ## Order of Operations 
 ### Downloading, processing, and plotting the California pesticide data to understand historical crop acreage 
 
