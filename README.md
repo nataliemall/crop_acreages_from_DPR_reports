@@ -1,7 +1,6 @@
 ## This repository takes data from the California Pesticide Use Reporting system and calculates crop acreage to at the 1-square-mile resolution.  This data is then aggregated to larger regions, either county or irrigation district. 
 
-![test](https://github.com/nataliemall/crop_acreages_from_DPR_reports/blob/master/readme_schematic.png?raw=true")
-
+![test](https://github.com/nataliemall/crop_acreages_from_DPR_reports/blob/master/readme_flowchart.png?raw=true")
 
 
 ## Order of Operations 
