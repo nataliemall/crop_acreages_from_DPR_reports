@@ -1,4 +1,4 @@
-## This repository takes data from the California Pesticide Use Reporting system, and calculates crop acreage to at the 1-square-mile resolution.  This data is then aggregated to larger regions, either county or irrigation district. 
+## This repository takes data from the California Pesticide Use Reporting system and calculates crop acreage to at the 1-square-mile resolution.  This data is then aggregated to larger regions, either county or irrigation district. 
 
 ![schematic](https://github.com/nataliemall/crop_acreages_from_DPR_reports/readme_schematic.png)
 
@@ -11,9 +11,7 @@
 Step 1: Download and unzip the file into the folder dedicated to all things dedicated to the February 13th Code Review 
 
 ```
-pur_data_with_comtrs.zip
 calPIP_PUR_crop_acreages.zip
-
 ```
 
  These were sent to you via email since it's a large file. 
@@ -36,19 +34,17 @@ site_codes_with_crop_types.csv
 Step 3:
  
 ``` acreage_calc_plots_single_irrigation_district.py```
- choose a district, and run the script 
+
+choose a district, and run the script 
 
 
-Step 4: Look at this script and run it for a little bit to see if it will start.Don't wait for the whole thing (it takes ~ 1 hour) . 
+Bonus Step 4: Look at this script and run it for a little bit to see if it will start.Don't wait for the whole thing (it takes ~ 1 hour) . 
 
-``` compile_normalize_data_by_comtrs.py```
+```
+pur_data_with_comtrs.zip
+compile_normalize_data_by_comtrs.py
 
-
-
-``` acreage_calc_plots_single_irrigation_district.py ```
-
-
-
+```
 
 
 
