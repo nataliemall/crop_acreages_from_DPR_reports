@@ -14,11 +14,9 @@ calPIP_PUR_crop_acreages.zip
 
  These were sent to you via email since it's a large file. 
 
- Step 2: Download the rest of the moving parts and put them in the same overall folder: 
+ Step 2: Download the rest of the moving parts and put them in the same overall folder (or just clone the whole repository): 
 
 ```
-adding_comtrs_functions.py
-compile_normalize_data_by_comtrs.py
 calPUR_county_comparison.py
 pur_and_county_data_retrieval.py
 plotting_functions.py
@@ -36,7 +34,7 @@ Step 3:
 choose a district, and run the script 
 
 
-Bonus Step 4: Look at this script and run it for a little bit to see if it will start.Don't wait for the whole thing (it takes ~ 1 hour) . 
+Bonus Step 4: Look at this script and run it for a little bit to see if it will start. Don't wait for the whole thing (it takes ~ 1 hour) . 
 
 ```
 pur_data_with_comtrs.zip
