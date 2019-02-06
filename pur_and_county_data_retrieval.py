@@ -85,9 +85,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
 
         # directory=os.path.join('/Users/nataliemall/Box Sync/herman_research_box/tulare_git_repo/pur_data_raw/data_with_comtrs/')
         comtrs_compiled_data = pd.read_csv(os.path.join('calPIP_PUR_crop_acreages', (year_two_digits + 'files'), ('all_data_normalized_year' + year_two_digits + '_by_COMTRS' + '.csv' )), sep = '\t')
-        # pdb.set_trace()
-        # print('find county column here')
-        # pdb.set_trace()
+
         try:
             crop_data_in_irrigation_district = comtrs_compiled_data.loc[(comtrs_compiled_data["comtrs"].isin(comtrs_in_irrigation_dist.co_mtrs)) ]
         except:
@@ -181,8 +179,6 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
                 df_all_years = pd.merge(df_all_years, df_with_year_to_add, how = 'outer', left_index = True, right_index = True)
             ### end of little block saving df by year for region
 
-            # pdb.set_trace()
-            print('test out the df_all_years here')
 
             if not os.path.isdir(str(irrigation_district)):
                 os.mkdir(str(irrigation_district))
@@ -195,8 +191,6 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
             tree_data_by_comtrs.to_csv(str('data_for_qgis/' + str(irrigation_district) + str(year) + 'tree_data.csv'))
             annual_data_normalized = all_crop_data[annual_crop_columns]
             forage_data_normalized = all_crop_data[forage_crop_columns]
-
-            print(year)
 
             acreage_by_crop_type = all_crop_data.sum()
             if year < 1990:  # calculate water use by multiplying the total acreage of for each crop type by its AW value
@@ -264,30 +258,6 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
             acreage_by_crop_type4['applied_water_for_this_crop_type_by_dwr_year'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
             acreage_by_crop_type4['minimum_applied_water_per_acre'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
             acreage_by_crop_type4['perennial_applied_water_per_acre'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
-            # pdb.set_trace()
-
-            ## Commented out changing water values because no longer necessary ### 
-            # if (year > 1997) & (year < 2011):  # uses changing applied water values 
-            #     # pdb.set_trace()
-            #     column_name = str('AW_HR_' + str(year))
-            #     HR_yearly_AW_Data = pd.read_csv('site_codes_with_crop_types.csv', usecols = ['crop_name_HR_2010', column_name])
-            #     HR_yearly_AW_Data_snipped = HR_yearly_AW_Data.head(23)
-            #     HR_yearly_AW_Data_snipped_2 = HR_yearly_AW_Data_snipped.set_index('crop_name_HR_2010')
-
-            #     for num, row in enumerate(tqdm(acreage_by_crop_type4.AW_group2)): 
-            #         # pdb.set_trace()
-            #         # aw_group_string = acreage_by_crop_type4.AW_group2.iloc[row]
-            #         try:
-            #             # pdb.set_trace()
-            #             applied_water_numerical_value = HR_yearly_AW_Data_snipped_2[column_name].loc[row]
-            #         except:
-            #             applied_water_numerical_value = 0 
-            #         acreage_by_crop_type4['applied_water_per_acre_by_dwr_year'].iloc[num] = applied_water_numerical_value
-            #     # pdb.set_trace()
-            #     acreage_by_crop_type4['applied_water_for_this_crop_type_by_dwr_year'] = acreage_by_crop_type4.acreage_within_region * np.float64(acreage_by_crop_type4.applied_water_per_acre_by_dwr_year)
-            #     total_water_demand_for_year_changing_AW = acreage_by_crop_type4.applied_water_for_this_crop_type_by_dwr_year.sum()
-            # else:
-            #     total_water_demand_for_year_changing_AW = 0 
 
             # for each row in the dataset acreage_by_crop_type4, 
             for num, row in enumerate(tqdm(acreage_by_crop_type4.AW_group2)):   # uses 2010 water use data from DWR 
@@ -299,21 +269,17 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
                     try:
                         deficit_water_demand_for_crop = min_data_snipped2.AW_HR_2010_min.loc[row]  # deficit water demand 
                         perennial_water_demand_for_crop = HR_2010_AW_Data_snipped2.AW_HR_2010.loc[row]    # 100% water for perennials
-                        # pdb.set_trace()
                     except:
                         deficit_water_demand_for_crop = 0 
                         perennial_water_demand_for_crop = 0 
-                        # pdb.set_trace()
                 elif (year > 1989) & (str(acreage_by_crop_type4.index[num]) in tree_crops_1990_2016):
                     try:
                         deficit_water_demand_for_crop = min_data_snipped2.AW_HR_2010_min.loc[row]  # deficit water demand
                         perennial_water_demand_for_crop = HR_2010_AW_Data_snipped2.AW_HR_2010.loc[row]
                     except: 
-                        # pdb.set_trace()
                         deficit_water_demand_for_crop = 0 
                         perennial_water_demand_for_crop = 0
                 else:                                           # water demands go to zero if not perennial crops 
-                    # pdb.set_trace()
                     deficit_water_demand_for_crop = 0 
                     perennial_water_demand_for_crop = 0
 
@@ -327,7 +293,6 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
                 acreage_by_crop_type4['minimum_applied_water_per_acre'].iloc[num] = deficit_water_demand_for_crop
                 acreage_by_crop_type4['perennial_applied_water_per_acre'].iloc[num] = perennial_water_demand_for_crop
 
-            # pdb.set_trace()
             acreage_by_crop_type4['applied_water_for_this_crop_type'] = acreage_by_crop_type4.acreage_within_region * np.float64(acreage_by_crop_type4.applied_water_per_acre)
             acreage_by_crop_type4['deficit_irrigation_for_this_crop_type'] = acreage_by_crop_type4.acreage_within_region * np.float64(acreage_by_crop_type4.minimum_applied_water_per_acre)
             acreage_by_crop_type4['perennial_irrigation_for_this_crop_type'] = acreage_by_crop_type4.acreage_within_region * np.float64(acreage_by_crop_type4.perennial_applied_water_per_acre)
@@ -335,10 +300,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
             total_water_demand_for_year = acreage_by_crop_type4.applied_water_for_this_crop_type.sum()
             deficit_irrigation_water_demand_for_year = acreage_by_crop_type4.deficit_irrigation_for_this_crop_type.sum()
             perennial_irrigation_water_demand_for_year = acreage_by_crop_type4.perennial_irrigation_for_this_crop_type.sum()
-            # pdb.set_trace()
-            print('test out crop type here')
-            ## include minumum demand for year here
-            # minumum_water_demand_for_year = acreage_by_crop_type4
+
 
             acreage_of_all_tree_crops_normalized = tree_data_normalized[tree_crop_columns].sum().sum()
             acreage_of_all_annual_crops_normalized = annual_data_normalized[annual_crop_columns].sum().sum()
@@ -368,7 +330,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
 
     df_all_years.index.names = ['crop_ID']
     df_all_years.to_csv(os.path.join(irrigation_district, str('calPUR_by_crop_type_' + str(irrigation_district) + '.csv')), index = True) 
-    # pdb.set_trace()
+
     return sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district, totals_in_irrig_dist
 
 def county_commissioner_data(irrigation_district):
@@ -378,9 +340,6 @@ def county_commissioner_data(irrigation_district):
     df_all = pd.read_csv('CA-crops-1980-2016.csv', index_col=0, parse_dates=True, names=cols, low_memory=False).fillna(-99)
     df = df_all[df_all.county==county_name]
 
-    # first: what crops are highest value total (top 10 in 2016)
-    print(df[df.index=='2016'].sort_values(by='value', ascending=False).head(10))
-    highest_valued = df[df.index=='2016'].sort_values(by='value', ascending=False).head(10)
     # crops of greatest acreage
     print(df[df.index=='2016'].sort_values(by='acres', ascending=False).head(10))
     highest_acres = df[df.index=='2016'].sort_values(by='acres', ascending=False).head(10)
