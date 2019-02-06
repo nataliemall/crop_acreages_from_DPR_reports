@@ -10,28 +10,40 @@
 
 Step 1: Download and unzip the file into the folder dedicated to all things dedicated to the February 13th Code Review 
 
-```pur_data_with_comtrs.zip```
+```
+pur_data_with_comtrs.zip
+calPIP_PUR_crop_acreages.zip
 
- This was sent to you via email since it's a large file. 
+```
 
- Step 2: Download the rest of the moving parts: 
+ These were sent to you via email since it's a large file. 
+
+ Step 2: Download the rest of the moving parts and put them in the same overall folder: 
 
 ```
 adding_comtrs_functions.py
-fix_pur_data_step1.py
-clean_calPIP_data.py
 compile_normalize_data_by_comtrs.py
 calPUR_county_comparison.py
 pur_and_county_data_retrieval.py
 plotting_functions.py
 acreage_calc_plots_single_irrigation_district.py
-```
 
-Step 3: Run the part of the code this is all about. 
+CA-crops-1980-2016.csv
+county_commissioner_crop_types.csv
+site_codes_with_crop_types.csv
+
+```
+Step 3:
+ 
+``` acreage_calc_plots_single_irrigation_district.py```
+ choose a district, and run the script 
+
+
+Step 4: Look at this script and run it for a little bit to see if it will start.Don't wait for the whole thing (it takes ~ 1 hour) . 
 
 ``` compile_normalize_data_by_comtrs.py```
 
-Step 4: Graph it!
+
 
 ``` acreage_calc_plots_single_irrigation_district.py ```
 
