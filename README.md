@@ -2,6 +2,8 @@
 
 ![schematic](https://github.com/nataliemall/crop_acreages_from_DPR_reports/readme_schematic.png)
 
+
+      
 ## Special user-friendly version for the wonderful lab group 
 
 ### We'll skip the messy part of processing the raw data, and instead download the handy compressed file of nice clean data (originally from the Pesticide Information Portal). 
