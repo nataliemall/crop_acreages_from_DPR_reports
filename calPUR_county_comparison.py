@@ -62,7 +62,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, sum_cc_crop
 
 
 
-retrieve_data = 0
+retrieve_data = 1
 normalized = 1 
 
 county_list = [ 'Fresno_County', 'Tulare_County', 'Kings_County', 'Kern_County']

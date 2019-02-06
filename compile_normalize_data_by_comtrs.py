@@ -10,6 +10,7 @@ import pandas as pd
 import re 
 from tqdm import tqdm  # for something in tqdm(something something):
 
+# pdb.set_trace()
 def read_data(year):
 
     directory='pur_data_with_comtrs'
@@ -345,13 +346,15 @@ def normalize_data(year):
         os.mkdir(directory)
 
     crop_df = pd.read_csv(os.path.join(directory, ('annual_perennial_data_year' + year_two_digits + '_by_COMTRS' + '.csv' ) ), sep = '\t')
-    # crop5_df = crop_df.rename(columns = { "level_0" : "comtrs"})
-    valid_crop_dataset = crop_df.set_index("comtrs")
+    crop5_df = crop_df.rename(columns = { "index" : "comtrs"})
+    # pdb.set_trace()
+    valid_crop_dataset = crop5_df.set_index("comtrs")
+    # valid_crop_dataset = crop_df
 
     total_acreage_each_comtrs = valid_crop_dataset.sum(axis = 1)
 
     valid_crop_dataset_normalized = valid_crop_dataset
-
+    # pdb.set_trace()
     for num, comtrs in enumerate(tqdm(valid_crop_dataset.index)) :
         if total_acreage_each_comtrs.loc[comtrs] > 640:
 
@@ -362,13 +365,13 @@ def normalize_data(year):
     valid_crop_dataset_normalized2 = valid_crop_dataset_normalized.reset_index()
     valid_crop_dataset_normalized3 = valid_crop_dataset_normalized2.rename(columns={"level_0": "comtrs"})
     valid_crop_dataset_normalized3.to_csv(os.path.join(directory, ('all_data_normalized_year' + year_two_digits + '_by_COMTRS' + '.csv' ) ), header = True, na_rep = '0', index = False, sep = '\t')
-    valid_crop_dataset_normalized3.to_csv(os.path.join('calPIP_PUR_crop_acreages', ('all_data_normalized_year' + year_two_digits + '_by_COMTRS' + '.csv' ) ), header = True, na_rep = '0', index = False, sep = '\t')
+    # valid_crop_dataset_normalized3.to_csv(os.path.join('calPIP_PUR_crop_acreages', ('all_data_normalized_year' + year_two_digits + '_by_COMTRS' + '.csv' ) ), header = True, na_rep = '0', index = False, sep = '\t')
 
 
 
 
  
-compilation = 0
+compilation = 1
 normalization = 1
 
 # Step 4: Compile data by comtrs 

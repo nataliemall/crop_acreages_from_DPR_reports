@@ -84,7 +84,7 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
         # directory=os.path.join('calPIP_PUR_crop_acreages_july26', year_two_digits + 'files' )
 
         # directory=os.path.join('/Users/nataliemall/Box Sync/herman_research_box/tulare_git_repo/pur_data_raw/data_with_comtrs/')
-        comtrs_compiled_data = pd.read_csv(os.path.join('calPIP_PUR_crop_acreages', ('all_data_normalized_year' + year_two_digits + '_by_COMTRS' + '.csv' )), sep = '\t')
+        comtrs_compiled_data = pd.read_csv(os.path.join('calPIP_PUR_crop_acreages', (year_two_digits + 'files'), ('all_data_normalized_year' + year_two_digits + '_by_COMTRS' + '.csv' )), sep = '\t')
         # pdb.set_trace()
         # print('find county column here')
         # pdb.set_trace()
@@ -255,7 +255,8 @@ def retrieve_data_for_irrigation_district(irrigation_district, normalized):
 
             # acreage_by_crop_type4['AW_acre_feet'] = HR_2010_AW_Data_snipped2['AW_HR_2010'].loc[HR_2010_AW_Data_snipped2.index]
             acreage_by_crop_type4['acreage_within_region'] = acreage_by_crop_type4[0]
-            acreage_by_crop_type4 = acreage_by_crop_type4.drop(columns = [0] )  # drop redundant column 
+            # pdb.set_trace()
+            acreage_by_crop_type4 = acreage_by_crop_type4.drop(labels=[0], axis = 1)  # drop redundant column 
 
             acreage_by_crop_type4['applied_water_per_acre'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
             acreage_by_crop_type4['applied_water_for_this_crop_type'] = np.zeros(len(acreage_by_crop_type4.acreage_within_region))
@@ -411,8 +412,12 @@ def county_commissioner_data(irrigation_district):
         tree_crops_this_year = tree_crops_this_year_this_county.acres.sum()
         annual_crops_this_year = annual_crops_this_year_this_county.acres.sum()
         forage_crops_this_year = forage_crops_this_year_this_county.acres.sum()
-
         acreage_of_all_crops = tree_crops_this_year + annual_crops_this_year + forage_crops_this_year
+        # pdb.set_trace()
+
+        if acreage_of_all_crops == 0: # avoid divide by zero error 
+            print('error: do not run county commissioner data parsing - this data is only available on the county scale.  Set compare_with_county_data equal to zero')
+            pdb.set_trace()
 
         sum_cc_crop_types.iloc[df_row]['year'] = year_date_time.year 
         sum_cc_crop_types.iloc[df_row]['all_tree_crops'] = str(tree_crops_this_year)
@@ -421,6 +426,7 @@ def county_commissioner_data(irrigation_district):
 
         sum_cc_crop_types.iloc[df_row]['percent_tree_crops'] = str(tree_crops_this_year / acreage_of_all_crops * 100)
         sum_cc_crop_types.set_index('year')
+
 
     sum_cc_crop_types.to_csv(os.path.join(irrigation_district, str('cc_data' + str(irrigation_district) + '.csv')), index = False) 
         # annual_crop_columns = crop_data_in_irrigation_district.columns[crop_data_in_irrigation_district.columns.isin(annual_crops_1990_2016)]  # Columns that are tree crops 

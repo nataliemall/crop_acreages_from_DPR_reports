@@ -73,7 +73,7 @@ def surface_water_bar_plot(irrigation_district, sum_crop_types_normalized):
 
     # pdb.set_trace()
 
-    y_min_water_demand = data_2016.minimum_water_demand_for_year
+    y_min_water_demand = data_2016.deficit_irrigation_water_demand_for_year
     y_normal_water_demand = data_2016.water_demand_with_2010_AW_values
     plt.hlines(y_normal_water_demand, -1, 2, colors = '#6baed6', label = 'estimated annual water demand')
     plt.hlines(y_min_water_demand, -1, 2, colors = '#08519c', label = 'minimum water demand')
@@ -142,7 +142,7 @@ def gw_crop_type_comparison_plot(irrigation_district_list):
     nn_old = irrigation_district_list
     nn = water_portfolios.irrigation_district_acronym.tolist()
     nn = district_matrix.irrigation_district_acronym.tolist()
-    pdb.set_trace()
+    # pdb.set_trace()
 
     for i, txt in enumerate(nn):
         text_x_coord = district_matrix.perennial_annual_ratio[i] - 3
@@ -203,8 +203,9 @@ def plot_water_demand_graph(sum_crop_types_normalized, irrigation_district):
     # y_vals_changing = sum_crop_types_normalized.water_demand_with_changing_AW_values.values[24:37]
     # plt.plot(x_vals_changing, y_vals_changing, color = 'b', label = 'calPUR crop total estimated AW from 1998 - 2010 DWR data')
     
+    # pdb.set_trace()
     x_vals_min = sum_crop_types_normalized.year.values
-    y_vals_min = sum_crop_types_normalized.minimum_water_demand_for_year.values
+    y_vals_min = sum_crop_types_normalized.deficit_irrigation_water_demand_for_year.values
     plt.plot(x_vals_min, y_vals_min, color = 'r', label = 'minimum required applied water for permanent crop survival')
 
 
@@ -222,7 +223,7 @@ def plot_acreage_and_demand_side_by_side(irrigation_district, sum_crop_types_nor
     x_vals = sum_crop_types_normalized.year.values
     y_vals = sum_crop_types_normalized.water_demand_with_2010_AW_values.values
 
-    y_vals_min = sum_crop_types_normalized.minimum_water_demand_for_year.values
+    y_vals_min = sum_crop_types_normalized.deficit_irrigation_water_demand_for_year.values
     ## Acreage values 
     x_acreage_vals = sum_crop_types_normalized.year.values
     y_acreage_vals = sum_crop_types_normalized.all_tree_crops_normalized.values

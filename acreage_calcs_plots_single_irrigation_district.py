@@ -1,4 +1,4 @@
-## Plot a specific irrigation district ## 
+## Plot data for a specific irrigation district ## 
 
 import numpy as np 
 import matplotlib.colors as mplc
@@ -21,32 +21,32 @@ from plotting_functions import plot_tree_crop_percentages_for_irrigation_distric
 from plotting_functions import plot_water_demand_graph
 from plotting_functions import plot_acreage_and_demand_side_by_side
 from plotting_functions import plot_all_the_irrigation_district_bar_charts
-# from plotting_functions import
-# from pur_and_county_data_retrieval import 
 
-normalized = 1
-retrieve_data = 0
-plot_single_irrigation_district = 1 
-compare_with_county_data = 1
-plot_water_demand = 0
-create_bar_chart = 0
 
-# Counties 
+
+retrieve_data = 0   # set equal to zero if you've already retrieved the data for the irrigation district.  Otherwise set equal to 1 
+counties = 'Kings_County', 'Tulare_County', 'Fresno_County', 'Kern_County'   # list of your available counties 
+
+
+############ Choose a region for which to plot data ###########
+
+## Counties: ##
+
+# irrigation_district = 'Kings_County'
+irrigation_district = 'Kern_County'
+# irrigation_district = 'Fresno_County'
+# irrigation_district = 'Tulare_County'
+
+## larger regions ##
 # irrigation_district = 'tlb_irrigation_districts_all'
 # irrigation_district = 'comtrs_all_sections'
 
-# irrigation_district = 'Kings_County'
-# irrigation_district = 'Kern_County'
-# irrigation_district = 'Fresno_County'
-irrigation_district = 'Tulare_County'
 
+## Irrigation districts:  ##
 # irrigation_district = 'North_Kern_Water_Storage_District'
 # irrigation_district = 'Cawelo_Water_District'
 # irrigation_district = 'Wasco_Irrigation_District'
 # irrigation_district = 'Buena_Vista_Water_Storage_District'
-
-
-## List of automatically produced regions  ###
 # irrigation_district = 'Tulare Irrigation District'
 # irrigation_district = 'Cawelo Water District'
 # irrigation_district = 'North Kern Water Storage District'
@@ -61,18 +61,30 @@ irrigation_district = 'Tulare_County'
 # irrigation_district = 'Arvin - Edison Water Storage District'
 # irrigation_district = 'Shafter - Wasco Irrigation District'
 # irrigation_district = 'Southern San Joaquin Municipal Utility District'  # not in TLB 
-# pdb.set_trace()
+
+
+plot_single_irrigation_district = 1 
+
+
+
+if irrigation_district in counties: # only if analyzing a county (kings, kern, fresno, or tulare) 
+    compare_with_county_data = 1
+else:
+    compare_with_county_data = 0 
+
+plot_water_demand = 1
+
+create_bar_chart = 0   # keep this one equal to zero because I didn't give you the data 
+normalized = 1  # keep this equal to one 
 
 if not os.path.isdir(str(irrigation_district)):  # creates empty directory for the district if it does not yet exist
     os.mkdir(str(irrigation_district))
 
 
-### Run this to re-extract data from this specific region: 
+### This runs to re-extract data from the specific region: 
 if retrieve_data == 1:  
     sum_crop_types, sum_crop_types_normalized, crop_data_in_irrigation_district, irrigation_district, totals_in_irrig_dist = retrieve_data_for_irrigation_district(irrigation_district, normalized)
 
-pdb.set_trace() 
-print( 'check out totals_in_irrig_dist')
 
 # Load calPUR dataset 
 if normalized == 1 and plot_single_irrigation_district == 1:
@@ -85,17 +97,13 @@ if compare_with_county_data == 1:  # county data only
     # Load County Commissioner dataset 
     sum_cc_crop_types = county_commissioner_data(irrigation_district)
 
-    # # Load calPIP dataset - not going to use in thesis 
-    # (all, tree_acreage_summed_for_year, annual_acreage_summed_for_year, forage_acreage_summed_for_year, 
-    #     percent_tree_acreage_summed_for_year) = load_calPIP_data_all_years(irrigation_district)
-
     # Plot combination of datasets: 
     if normalized == 1:
         plot_dataset_comparison(irrigation_district, sum_crop_types_normalized, sum_cc_crop_types )
     else:    
         plot_dataset_comparison(irrigation_district, sum_crop_types, sum_cc_crop_types )
 
-pdb.set_trace()
+
 
 if plot_water_demand == 1:
     plot_water_demand_graph(sum_crop_types_normalized, irrigation_district)
