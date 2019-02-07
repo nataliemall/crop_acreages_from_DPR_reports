@@ -1,13 +1,8 @@
 ### Compile and read PUR formatted data 
 
 import numpy as np 
-import matplotlib.colors as mplc
-import matplotlib.pyplot as plt
-import matplotlib.collections as collections
 import os 
-import pdb
 import pandas as pd
-import seaborn as sns
 import re 
 from tqdm import tqdm  # for something in tqdm(something something):
 
@@ -20,7 +15,6 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
 
     tlb_county_cds = [10, 15, 16, 54]
     tlb_overall_data = overall_data.loc[(overall_data["county_cd"].isin(tlb_county_cds)) ]
-
 
     #COMTRS:
     # COunty, Meridian, Township, Range, Section 
@@ -35,7 +29,7 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
         tlb_range = np.int64(tlb_overall_data.range)
         # tlb_range = np.int64(tlb_overall_data.range)
     except:
-        # pdb.set_trace()
+        
         test = np.array(tlb_overall_data.range)
         test2 = test.tolist()
         where_are_NaNs = np.isnan(test2)
@@ -46,7 +40,6 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
 
     tlb_section = np.int64(tlb_overall_data.section)
     tlb_overall_data.section = tlb_section
-
 
     len_dataset = len(tlb_overall_data.section)
     COMTRS = pd.DataFrame()
@@ -80,7 +73,7 @@ def add_comtrs_pre_1990(year): #adds the comtrs as a column # preliminary proces
         os.mkdir('pur_data_with_comtrs')
         print('Created pur_data_with_comtrs folder')
     tlb_overall_data.to_csv(str('pur_data_with_comtrs/comtrs_pur_vals_year' + str(year) + '.csv'), index = False )
-    # pdb.set_trace()
+    
 
 
 def add_comtrs_1990_2004(year): #adds the comtrs as a column # preliminary processing of 1990 - 2004 data
@@ -96,7 +89,7 @@ def add_comtrs_1990_2004(year): #adds the comtrs as a column # preliminary proce
 
     for dataset_num, dataset in tqdm(enumerate(full_dataset)):
         print(len(dataset))
-        # pdb.set_trace()
+        
         tlb_county = np.int64(dataset.county_cd)
         dataset.county_cd = tlb_county
 
@@ -104,7 +97,7 @@ def add_comtrs_1990_2004(year): #adds the comtrs as a column # preliminary proce
         try: # fix township
             tlb_township = np.int64(dataset.township)
         except:
-            # pdb.set_trace()
+            
             number_exceptions = 0 
             tlb_township = np.zeros(len(dataset.township))
             for township_num, township in enumerate(dataset.township):
@@ -121,8 +114,7 @@ def add_comtrs_1990_2004(year): #adds the comtrs as a column # preliminary proce
         try: # fix range
             tlb_range = np.int64(dataset.range)
             # tlb_range = np.int64(tlb_overall_data.range)
-        except:
-            # pdb.set_trace()
+        except:   
             number_exceptions = 0 
             tlb_range = np.zeros(len(dataset.range))
             for range_num, range_val in enumerate(dataset.range):
@@ -141,7 +133,6 @@ def add_comtrs_1990_2004(year): #adds the comtrs as a column # preliminary proce
             tlb_section = np.int64(dataset.section)
             # tlb_range = np.int64(tlb_overall_data.range)
         except:
-            # pdb.set_trace()
             number_exceptions = 0 
             tlb_section = np.zeros(len(dataset.section))
             for section_num, section_val in enumerate(dataset.section):
@@ -163,10 +154,7 @@ def add_comtrs_1990_2004(year): #adds the comtrs as a column # preliminary proce
         COMTRS = pd.DataFrame()
         COMTRS2 = np.zeros(len_dataset)
         COMTRS['comtrs'] = COMTRS2
-        dataset['comtrs'] = np.zeros((len_dataset))
-
-
-        # pdb.set_trace()
+        dataset['comtrs'] = np.zeros((len_dataset))        
 
         try:
             array_township = dataset.township.values 
@@ -184,34 +172,29 @@ def add_comtrs_1990_2004(year): #adds the comtrs as a column # preliminary proce
         except:
             print('error here')
 
-        # pdb.set_trace()
-
         dataset["comtrs"] = (dataset["county_cd"].map(str) + dataset["base_ln_mer"] + dataset["township_string"]  + dataset["tship_dir"] + dataset["range_string"] + dataset["range_dir"] + dataset["section_string"])
         dataset = dataset.set_index(['comtrs'])
-                # pdb.set_trace()
+                
         if dataset_num == 0:
             tlb_overall_data = dataset
         else:
-            # pdb.set_trace()
             # merge these 4 datasets together, run a function similar to calculate_acres_pre_1990(), output should be acres in each comtrs for each crop type (site_code)
             tlb_overall_data = pd.concat([tlb_overall_data, dataset])
-        # pdb.set_trace()
+        
     if os.path.isdir("pur_data_with_comtrs"):
         print('folder does exist')
     else:
         os.mkdir('pur_data_with_comtrs')
         print('Created pur_data_with_comtrs folder')
     tlb_overall_data.to_csv(str('pur_data_with_comtrs/comtrs_pur_vals_year' + str(year) + '.csv'), index = True )
-    # pdb.set_trace()
-
+    
     # tlb_overall_data.to_csv(str('comtrs_pur_vals_year' + str(year) + '.csv'), index = True )
-
 
 def add_comtrs_2005_2016(year): #adds the comtrs as a column # preliminary processing of 2004 - 2016 data
     '''relatively simple since this dataset already includes the comtrs'''
     final_two_digits = str(year)
     final_two_digits = final_two_digits[-2:]
-    # pdb.set_trace()
+    
     # Extract data from counties 10, 15, 16, 54
     overall_data_fresno = pd.read_csv(str('pur_data_cleaned/pur' + str(year) +'/udc' + final_two_digits + '_10_fixed.txt'), sep = ',', error_bad_lines = False, warn_bad_lines = True)
     overall_data_kern = pd.read_csv(str('pur_data_cleaned/pur' + str(year) +'/udc' + final_two_digits + '_15_fixed.txt'), sep = ',', error_bad_lines = False, warn_bad_lines = True)
@@ -224,7 +207,6 @@ def add_comtrs_2005_2016(year): #adds the comtrs as a column # preliminary proce
         if dataset_num == 0:
             tlb_overall_data = dataset
         else:
-            # pdb.set_trace()
             tlb_overall_data = pd.concat([tlb_overall_data, dataset])
 
     if os.path.isdir("pur_data_with_comtrs"):
@@ -234,9 +216,6 @@ def add_comtrs_2005_2016(year): #adds the comtrs as a column # preliminary proce
         print('Created pur_data_with_comtrs folder')
         
     tlb_overall_data.to_csv(str('pur_data_with_comtrs/comtrs_pur_vals_year' + str(year) + '.csv'), index = True )
-    # pdb.set_trace()
-
-    # tlb_overall_data.to_csv(str('comtrs_pur_vals_year' + str(year) + '.csv'), index = True )
-
+    
 
 

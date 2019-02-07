@@ -5,7 +5,6 @@ import matplotlib.colors as mplc
 import matplotlib.pyplot as plt
 import matplotlib.collections as collections
 import os 
-import pdb
 import pandas as pd
 from tqdm import tqdm  # for something in tqdm(something something):
 
@@ -93,8 +92,6 @@ if not os.path.isdir('figure_drafts'):
     os.mkdir('figure_drafts')
 plt.savefig('figure_drafts/calPUR_CC_comparison', dpi = 300)
 plt.show()
-
-pdb.set_trace()
 
 
 

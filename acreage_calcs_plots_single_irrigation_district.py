@@ -2,7 +2,6 @@
 
 import numpy as np 
 import os 
-import pdb
 import pandas as pd
 
 
@@ -93,7 +92,7 @@ if plot_water_demand == 1:
 
 
 if compare_with_county_data == 0: 
-    # pdb.set_trace()
+    
     if normalized == 1:
         plot_data_for_irrigation_district(irrigation_district, sum_crop_types_normalized, normalized)
     if normalized == 0:
@@ -102,8 +101,6 @@ if compare_with_county_data == 0:
 if (create_bar_chart == 1) & (compare_with_county_data == 0):
     surface_water_bar_plot(irrigation_district, sum_crop_types_normalized)
 
-
-
-pdb.set_trace() 
+ 
 
 
