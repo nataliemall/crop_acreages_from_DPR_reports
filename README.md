@@ -2,6 +2,10 @@
 
 ![test](https://github.com/nataliemall/crop_acreages_from_DPR_reports/blob/master/readme_flowchart.png?raw=true")
 
+Dependencies: 
+```numpy ```
+```tqdm ```
+```pandas ```
 
 ## Order of Operations 
 ### Downloading, processing, and plotting the California pesticide data to understand historical crop acreage 
@@ -13,7 +17,7 @@ For now: Download data at ftp://transfer.cdpr.ca.gov/pub/outgoing/pur_archives/
 
 Part 2: Download .py files from crop_acreages_CA_DPR_reports and place in same folder (which should also contain the pur_data_raw folder)
 
-Part 3: Clean the data -  Cleans up bad data and compiles data columns to create a comtrs value for each permit
+Part 3: Clean the data -  Cleans up bad data by removing any non-alphanumeric characters from the comtrs (COunty, Meridian, Township, Range, Section) indices and compiles data columns to create a comtrs value for each permit. I.e. places each permit, or data row, into a 1-square-mile geographic location as labeled with the comtrs alpanumeric string. 
 
 ```clean_calPIP_data.py ```
 
