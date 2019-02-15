@@ -69,8 +69,11 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
         ax[column].plot(x_vals_min, y_vals_perennial, color = '#4292c6', label = 'Irrigation water demand - perennials only')
         ax[column].plot(x_vals_min, y_vals_min, color = '#084594', label = 'Deficit irrigation water required for perennial crop survival')
         ax[column].set_ylim(0)
+        ax[column].fill_between(x_vals_min, 0, y_vals_estimated, facecolor='#9ecae1')
+        ax[column].fill_between(x_vals_min, 0, y_vals_perennial, facecolor='#4292c6')
         # pdb.set_trace()
         ax[column].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+        ax[column].set_xlim(1974, 2016)
     else:
         # add minimum water demand Data:
 
@@ -109,8 +112,8 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 retrieve_data = 0
 normalized = 1
-high_perennials = 0   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
-# high_perennials = 'poster_districts'
+# high_perennials = 0   # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 'poster_districts'
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
