@@ -8,6 +8,7 @@ import os
 import pandas as pd
 import seaborn as sns
 import re 
+import pdb 
 from tqdm import tqdm  # for something in tqdm(something something):
 
 
@@ -320,10 +321,6 @@ def county_commissioner_data(irrigation_district):
     cols = ['year', 'comcode', 'crop', 'coucode', 'county', 'acres', 'yield', 'production', 'ppu', 'unit', 'value']
     df_all = pd.read_csv('CA-crops-1980-2016.csv', index_col=0, parse_dates=True, names=cols, low_memory=False).fillna(-99)
     df = df_all[df_all.county==county_name]
-
-    # crops of greatest acreage
-    print(df[df.index=='2016'].sort_values(by='acres', ascending=False).head(10))
-    highest_acres = df[df.index=='2016'].sort_values(by='acres', ascending=False).head(10)
 
     df_tulare = df_all[df_all.county=='Tulare']
     df_kern = df_all[df_all.county=='Kern']

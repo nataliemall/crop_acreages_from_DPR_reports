@@ -16,7 +16,7 @@ from pur_and_county_data_retrieval import county_commissioner_data
 
 
 
-def data_comparison_by_orchard_crop(irrigation_district, sum_cc_crop_types, crop_types_in_county):
+def data_comparison_by_orchard_crop(sum_cc_crop_types, crop_types_in_county):
 
     cols = ['year', 'comcode', 'crop', 'coucode', 'county', 'acres', 'yield', 'production', 'ppu', 'unit', 'value']
     df_all = pd.read_csv('CA-crops-1980-2016.csv', index_col=0, parse_dates=True, names=cols, low_memory=False).fillna(-99)
@@ -235,7 +235,7 @@ def data_comparison_by_orchard_crop(irrigation_district, sum_cc_crop_types, crop
     return x_array_cc_grapes_wine, y_array_grapes_wine, x_array_cc_grapes_table, y_array_grapes_table, x_array_cc_pist, y_array_pist, x_array_cc_almonds, y_array_almonds, x_array_oranges, oranges_cc_total, county_name, perennials_tlb, perennial_rev_tlb
 
 
-def data_comparison_by_field_crop(irrigation_district, sum_cc_crop_types, crop_types_in_county):
+def data_comparison_by_field_crop(sum_cc_crop_types, crop_types_in_county):
 
     cols = ['year', 'comcode', 'crop', 'coucode', 'county', 'acres', 'yield', 'production', 'ppu', 'unit', 'value']
     df_all = pd.read_csv('CA-crops-1980-2016.csv', index_col=0, parse_dates=True, names=cols, low_memory=False).fillna(-99)
@@ -526,74 +526,95 @@ def plot_totals(perennials_tlb, perennial_rev_tlb, annuals_tlb, annual_rev_tlb):
     ax[2,0].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
     plt.show()
 
+def plot_cc_overall_data_function(irrigation_district):
+
+    county_list = [ 'Fresno_County', 'Tulare_County', 'Kings_County', 'Kern_County']
+    sum_cc_crop_types = {}  # Creates dictionary for CC data
+    for num, irrigation_district in enumerate(county_list) : 
+        sum_cc_crop_types[irrigation_district] = county_commissioner_data(irrigation_district)
+
+    county_tree_total = sum_cc_crop_types['Fresno_County'].all_tree_crops + sum_cc_crop_types['Tulare_County'].all_tree_crops \
+        + sum_cc_crop_types['Kings_County'].all_tree_crops + sum_cc_crop_types['Kern_County'].all_tree_crops
+
+    county_annual_crops_total = sum_cc_crop_types['Fresno_County'].all_annual_crops + sum_cc_crop_types['Tulare_County'].all_annual_crops \
+        + sum_cc_crop_types['Kings_County'].all_annual_crops + sum_cc_crop_types['Kern_County'].all_annual_crops
+
+    year_array = np.int64(sum_cc_crop_types['Fresno_County'].year).flatten()
+
+    fig, ax = plt.subplots(2,2, sharex = True)
+
+    ax[0,0].plot(year_array, (county_tree_total.values / 1000000), color = 'g' , label = 'Perennial crops' )
+    ax[0,0].plot(year_array, (county_annual_crops_total.values / 1000000) , color = 'y', label = 'Annual crops')
+
+    ax[0,0].legend()
+
+    ax[0,0].set_title('Crop Acreage in Tulare Lake Basin')
+    ax[0,0].set_xlabel('Year', fontsize = 14)
+    ax[0,0].set_ylabel('Total area of crops grown \n (millions of acres)' )
+    ax[0,0].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+
+    test = pd.read_csv('cpi_multipliers.csv')
+    df_cpi = pd.DataFrame(test, columns = {"year", "cpi"})
+    df_cpi = df_cpi.set_index( "year")
+    # pdb.set_trace()
+
+    # test = pd.merge(df_cpi,perennials_tlb , left_index = True, right_index = True)
+
+    adjusted_perennial_vals = perennial_rev_tlb.values * 240  /  df_cpi[ df_cpi.index > '1979'].cpi   # convert to 2016 dollars
+    adjusted_annual_vals = annual_rev_tlb.values * 240  /  df_cpi[ df_cpi.index > '1979'].cpi 
+
+    # pdb.set_trace()
+    ax[1,0].plot(year_array, adjusted_perennial_vals.values, label = 'adjusted revenue perennials', color = 'g')
+    ax[1,0].plot(year_array, adjusted_annual_vals.values, label = 'adjusted revenue annuals', color = 'y')
+    ax[1,0].set_ylabel('Inflation-adjusted revenue \n per acre (2016 dollars)') 
+    ax[1,0].set_ylim(0)
+    ax[1,0].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+    plt.show()
+
+
+    if not os.path.isdir('figure_drafts'):
+        os.mkdir('figure_drafts')
+    plt.savefig('figure_drafts/cc_crop_acreage_change_tlb2', dpi = 300)
+    pdb.set_trace()
 
 
 
 
 
+plot_indivual_acreages = 0
+plot_cc_overall_data = 1 
 
-# irrigation_district = 'Tulare_County'
+
+irrigation_district = 'Tulare_County'
 # irrigation_district = 'Kern_County'
 # irrigation_district = 'Kings_County'
-irrigation_district = 'Fresno_County'
+# irrigation_district = 'Fresno_County'
 sum_cc_crop_types = county_commissioner_data(irrigation_district) 
 # crop_types_in_county = pd.read_csv(os.path.join(irrigation_district, str('calPUR_by_crop_type_' + str(irrigation_district) + '_mod_Oct24.csv')), index_col = 'crop_ID') 
 crop_types_in_county = pd.read_csv(os.path.join(irrigation_district, str('calPUR_by_crop_type_' + str(irrigation_district) + '.csv')), index_col = 'crop_ID') 
 
-x_array_cc_grapes_wine, y_array_grapes_wine, x_array_cc_grapes_table, y_array_grapes_table, x_array_cc_pist, y_array_pist, x_array_cc_almonds, y_array_almonds, x_array_oranges, oranges_cc_total, county_name, perennials_tlb, perennial_rev_tlb = data_comparison_by_orchard_crop(irrigation_district, sum_cc_crop_types, crop_types_in_county)
+x_array_cc_grapes_wine, y_array_grapes_wine, x_array_cc_grapes_table, y_array_grapes_table, x_array_cc_pist, y_array_pist, x_array_cc_almonds, y_array_almonds, x_array_oranges, oranges_cc_total, county_name, perennials_tlb, perennial_rev_tlb = data_comparison_by_orchard_crop(sum_cc_crop_types, crop_types_in_county)
 
-x_array_cc_grapes_wine, y_array_grapes_wine, x_array_cc_grapes_table, y_array_grapes_table, x_array_cc_pist, y_array_pist, x_array_cc_almonds, y_array_almonds, x_array_oranges, oranges_cc_total, county_name, annuals_tlb, annual_rev_tlb = data_comparison_by_field_crop(irrigation_district, sum_cc_crop_types, crop_types_in_county)
-
-plot_totals(perennials_tlb, perennial_rev_tlb, annuals_tlb, annual_rev_tlb)
-
-pdb.set_trace()
+x_array_cc_grapes_wine, y_array_grapes_wine, x_array_cc_grapes_table, y_array_grapes_table, x_array_cc_pist, y_array_pist, x_array_cc_almonds, y_array_almonds, x_array_oranges, oranges_cc_total, county_name, annuals_tlb, annual_rev_tlb = data_comparison_by_field_crop(sum_cc_crop_types, crop_types_in_county)
 
 
-plot_crop_acreages(x_array_cc_grapes_wine, y_array_grapes_wine,
-        x_array_cc_grapes_table, y_array_grapes_table,
-        x_array_cc_pist, y_array_pist,
-        x_array_cc_almonds, y_array_almonds,
-        x_array_oranges, oranges_cc_total, county_name)
+if plot_indivual_acreages == 1: 
+    plot_totals(perennials_tlb, perennial_rev_tlb, annuals_tlb, annual_rev_tlb)
+    pdb.set_trace()
+    plot_crop_acreages(x_array_cc_grapes_wine, y_array_grapes_wine,
+            x_array_cc_grapes_table, y_array_grapes_table,
+            x_array_cc_pist, y_array_pist,
+            x_array_cc_almonds, y_array_almonds,
+            x_array_oranges, oranges_cc_total, county_name)
 
 
-
-
-
+if plot_cc_overall_data == 1: 
+    plot_cc_overall_data_function(irrigation_district)
 
 
 
-pdb.set_trace()
-print('stop here')
-normalized = 1 
-
-county_list = [ 'Fresno_County', 'Tulare_County', 'Kings_County', 'Kern_County']
 
 
-sum_cc_crop_types = {}  # Creates dictionary for CC data
-for num, irrigation_district in enumerate(county_list) : 
-    sum_cc_crop_types[irrigation_district] = county_commissioner_data(irrigation_district)
 
-# pdb.set_trace()   
-# test = sum_cc_crop_types['Fresno_County'].set_index('year')
 
-county_tree_total = sum_cc_crop_types['Fresno_County'].all_tree_crops + sum_cc_crop_types['Tulare_County'].all_tree_crops \
-    + sum_cc_crop_types['Kings_County'].all_tree_crops + sum_cc_crop_types['Kern_County'].all_tree_crops
 
-county_annual_crops_total = sum_cc_crop_types['Fresno_County'].all_annual_crops + sum_cc_crop_types['Tulare_County'].all_annual_crops \
-    + sum_cc_crop_types['Kings_County'].all_annual_crops + sum_cc_crop_types['Kern_County'].all_annual_crops
-
-pdb.set_trace()
-year_array = np.int64(sum_cc_crop_types['Fresno_County'].year).flatten()
-
-plt.plot(year_array, (county_tree_total.values / 1000000), color = 'g' , label = 'Perennial crops' )
-plt.plot(year_array, (county_annual_crops_total.values / 1000000) , color = 'y', label = 'Annual crops')
-plt.legend()
-plt.title('Crop Acreage Change in Tulare Lake Basin')
-plt.xlabel('Year', fontsize = 14)
-plt.ylabel('Total area of crops grown (millions of acres)', fontsize = 14 )
-plt.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
-
-if not os.path.isdir('figure_drafts'):
-    os.mkdir('figure_drafts')
-plt.savefig('figure_drafts/cc_crop_acreage_change_tlb', dpi = 300)
-pdb.set_trace()

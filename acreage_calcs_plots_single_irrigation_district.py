@@ -3,7 +3,7 @@
 import numpy as np 
 import os 
 import pandas as pd
-
+import pdb
 
 from pur_and_county_data_retrieval import retrieve_data_for_irrigation_district
 from pur_and_county_data_retrieval import county_commissioner_data
@@ -17,6 +17,8 @@ from plotting_functions import plot_water_demand_graph
 retrieve_data = 1   # set equal to zero if you've already retrieved the data for the irrigation district.  Otherwise set equal to 1 
 counties = 'Kings_County', 'Tulare_County', 'Fresno_County', 'Kern_County'   # list of your available counties 
 
+pdb.set_trace()
+print('TEST')
 
 ############ Choose a region for which to plot data ###########
 
