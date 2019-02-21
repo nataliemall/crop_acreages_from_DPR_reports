@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.colors as mplc
 import matplotlib.pyplot as plt
 import matplotlib.collections as collections
+from matplotlib.patches import Patch
 import os 
 import pdb
 import pandas as pd
@@ -556,9 +557,6 @@ def plot_cc_overall_data_function(irrigation_district):
     test = pd.read_csv('cpi_multipliers.csv')
     df_cpi = pd.DataFrame(test, columns = {"year", "cpi"})
     df_cpi = df_cpi.set_index( "year")
-    # pdb.set_trace()
-
-    # test = pd.merge(df_cpi,perennials_tlb , left_index = True, right_index = True)
 
     adjusted_perennial_vals = perennial_rev_tlb.values * 240  /  df_cpi[ df_cpi.index > '1979'].cpi   # convert to 2016 dollars
     adjusted_annual_vals = annual_rev_tlb.values * 240  /  df_cpi[ df_cpi.index > '1979'].cpi 
@@ -569,6 +567,31 @@ def plot_cc_overall_data_function(irrigation_district):
     ax[1,0].set_ylabel('Inflation-adjusted revenue \n per acre (2016 dollars)') 
     ax[1,0].set_ylim(0)
     ax[1,0].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+
+
+        # pdb.set_trace()
+    add_droughts = 1
+    if add_droughts == 1 :
+
+        year_list_array = np.arange(1980, 2017)
+        logic_rule = ( (year_list_array > 2011) & (year_list_array < 2017)) # or (year_list_array > 1991 & year_list_array < 1995))  
+        collection = collections.BrokenBarHCollection.span_where(year_list_array, ymin=0, ymax=1000000, where=(logic_rule), facecolor='orange', alpha=0.3)
+        collection1 = collections.BrokenBarHCollection.span_where(year_list_array, ymin=0, ymax=1000000, where=(logic_rule), facecolor='orange', alpha=0.3)
+        ax[0, 0].add_collection(collection)
+        ax[1, 0].add_collection(collection1)
+
+        logic_rule2 =  ( (year_list_array < 1993) & (year_list_array > 1986)  )   
+        collection2 = collections.BrokenBarHCollection.span_where(year_list_array, ymin=0, ymax=1000000, where=(logic_rule2), facecolor='orange', alpha=0.3)
+        collection3 = collections.BrokenBarHCollection.span_where(year_list_array, ymin=0, ymax=1000000, where=(logic_rule2), facecolor='orange', alpha=0.3)
+        
+        ax[0, 0].add_collection(collection2)
+        ax[1, 0].add_collection(collection3)
+
+        legend_elements = [Patch(facecolor = 'orange', alpha=0.3, label = 'drought year')]
+        ax[1,0].legend(handles = legend_elements, loc= 'lower right')  # custom legend 
+
+
+
     plt.show()
 
 
