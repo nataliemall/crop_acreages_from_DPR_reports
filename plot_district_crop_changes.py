@@ -63,7 +63,7 @@ def subplots_dataset_comparison(irrigation_district, sum_crop_types, num , fig, 
 
 retrieve_data = 0
 normalized = 1
-high_perennials = 7  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
+high_perennials = 0  # 1 = mostly perennials, 0 = mostly annuals, 2 = switched 
 
 # irrigation_district_list = [
 #     'Tulare Irrigation District',
@@ -169,7 +169,7 @@ if high_perennials == 2:
     plt.suptitle('Agricultural Acreage for Irrigation Districts with Shift to Perennial Crops', fontsize=14)
 
 fig.text(0.5, 0.04, 'Year', ha='center', fontsize=14)
-fig.text(0.04, 0.5, 'Crop acreage within irrigation district [thousands]', va='center', rotation='vertical', fontsize=14)
+fig.text(0.04, 0.5, 'Cultivated area within irrigation district [thousands of acres]', va='center', rotation='vertical', fontsize=14)  # Changed caption label 08.10.2019 - NKM
 
 # pdb.set_trace()
 sum_crop_types_each_county = {}

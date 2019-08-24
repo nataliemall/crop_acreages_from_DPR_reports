@@ -549,8 +549,8 @@ def plot_cc_overall_data_function(irrigation_district):
 
     ax[0,0].legend()
 
-    ax[0,0].set_title('Crop Acreage in Tulare Lake Basin')
-    ax[0,0].set_xlabel('Year', fontsize = 14)
+    ax[0,0].set_title('Crop Acreage and Prices in the Central Valley')
+    # ax[0,0].set_xlabel('Year', fontsize = 14)
     ax[0,0].set_ylabel('Total area of crops grown \n (millions of acres)' )
     ax[0,0].grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
 
@@ -587,7 +587,7 @@ def plot_cc_overall_data_function(irrigation_district):
         ax[0, 0].add_collection(collection2)
         ax[1, 0].add_collection(collection3)
 
-        legend_elements = [Patch(facecolor = 'orange', alpha=0.3, label = 'drought year')]
+        legend_elements = [Patch(facecolor = 'orange', alpha=0.3, label = 'Drought year')]
         ax[1,0].legend(handles = legend_elements, loc= 'lower right')  # custom legend 
 
 
